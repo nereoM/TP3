@@ -13,6 +13,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.geom.Line2D;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JCheckBox;
@@ -20,16 +21,22 @@ import javax.swing.JButton;
 import java.awt.Color;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Interfaz extends JPanel{
 
 	private JFrame frame;
 	private JTextField textVertice, textPeso, textArista1, textArista2;
-	private JLabel labelVertice, labelPeso, labelArista, labelCargar;
-	private JButton botonAgregar, botonArista;
-	private JCheckBox checkManual, checkAutomatico;
+	private JLabel labelVertice, labelPeso, labelArista, labelCargar, cartelError;
+	private JButton botonAgregar, botonArista, botonGenerar;
+	private JCheckBox checkManual, checkAutomatico, checkGrafoCompleto;
 	private Grafo grafo;
 	private Map<Vertice, Point> posiciones;
+	private EncontrarCliqueMayorPeso clique;
+	private JButton botonMostrarG;
+	private JButton botonVerticesCargados;
+	private VisualizadorGrafo visualizador;
 
 	/**
 	 * Launch the application.
@@ -74,7 +81,11 @@ public class Interfaz extends JPanel{
 		
 		botones();
 		
-		Grafo grafo = new Grafo();
+		grafo = new Grafo();
+		
+		visualizador = new VisualizadorGrafo();
+		
+		//Graphics g = new Graphics();
 		
 	}
 
@@ -106,7 +117,7 @@ public class Interfaz extends JPanel{
 		
 		checkAutomatico = new JCheckBox("Automatico");
 		checkAutomatico.setFont(new Font("Arial", Font.BOLD, 11));
-		checkAutomatico.setBounds(743, 39, 97, 23);
+		checkAutomatico.setBounds(743, 33, 97, 23);
 		frame.getContentPane().add(checkAutomatico);
 		
 		textArista1 = new JTextField();
@@ -129,10 +140,19 @@ public class Interfaz extends JPanel{
 		labelCargar.setBounds(691, 11, 46, 14);
 		frame.getContentPane().add(labelCargar);
 		
+		checkGrafoCompleto = new JCheckBox("Vertices cargados");
+		checkGrafoCompleto.setFont(new Font("Arial", Font.BOLD, 9));
+		checkGrafoCompleto.setBounds(22, 72, 111, 23);
+		frame.getContentPane().add(checkGrafoCompleto);
 	}
 	
 	private void botones() {
 		botonAgregar = new JButton("Agregar");
+		botonAgregar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				agregarVerticeConPeso();
+			}
+		});
 		botonAgregar.setBackground(new Color(192, 192, 192));
 		botonAgregar.setBorderPainted(false);
 		botonAgregar.setFont(new Font("Arial", Font.BOLD, 12));
@@ -140,60 +160,72 @@ public class Interfaz extends JPanel{
 		frame.getContentPane().add(botonAgregar);
 		
 		botonArista = new JButton("Agregar arista");
+		botonArista.setEnabled(true);
+		botonArista.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				grafo.agregarArista(Integer.parseInt(textArista1.getText()), Integer.parseInt(textArista2.getText()));
+			}
+		});
+
 		botonArista.setBorderPainted(false);
 		botonArista.setBackground(new Color(192, 192, 192));
 		botonArista.setHorizontalAlignment(SwingConstants.LEFT);
 		botonArista.setFont(new Font("Arial", Font.BOLD, 10));
-		botonArista.setBounds(480, 13, 103, 23);
+		botonArista.setBounds(465, 13, 103, 23);
 		frame.getContentPane().add(botonArista);
+		
+		cartelError = new JLabel("Vertice no valido!");
+		cartelError.setVisible(false);
+		cartelError.setFont(new Font("Arial", Font.BOLD, 9));
+		cartelError.setBounds(154, 48, 89, 14);
+		frame.getContentPane().add(cartelError);
+		
+		botonGenerar = new JButton("Generar");
+		botonGenerar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clique.EncontrarCliqueMayorPeso(grafo);
+			}
+		});
+		botonGenerar.setBackground(new Color(192, 192, 192));
+		botonGenerar.setBorderPainted(false);
+		botonGenerar.setFont(new Font("Arial", Font.BOLD, 12));
+		botonGenerar.setBounds(751, 647, 89, 23);
+		frame.getContentPane().add(botonGenerar);
+		
+		botonMostrarG = new JButton("Mostrar grafo");
+		botonMostrarG.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				visualizador.generarPosiciones(grafo);
+				visualizador.revalidate();
+				visualizador.repaint();
+			}
+		});
+		botonMostrarG.setFont(new Font("Arial", Font.BOLD, 10));
+		botonMostrarG.setBorderPainted(false);
+		botonMostrarG.setBackground(new Color(192, 192, 192));
+		botonMostrarG.setBounds(578, 13, 103, 23);
+		frame.getContentPane().add(botonMostrarG);
+		
+		botonVerticesCargados = new JButton("Grafo cargado");
+		botonVerticesCargados.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				grafo.inicializarMatrizAdy();
+			}
+		});
+		botonVerticesCargados.setBorderPainted(false);
+		botonVerticesCargados.setBackground(new Color(192, 192, 192));
+		botonVerticesCargados.setFont(new Font("Arial", Font.BOLD, 10));
+		botonVerticesCargados.setBounds(253, 44, 106, 23);
+		frame.getContentPane().add(botonVerticesCargados);
 	}
 	
 	private void agregarVerticeConPeso() {
 		try {
 			grafo.agregarVertice(Integer.parseInt(textVertice.getText()), Integer.parseInt(textPeso.getText()));
 		}
-		catch () {
-			
+		catch (Exception e) {
+			cartelError.setText(e.getMessage());
 		}
 		
 	}
-	
-	private void generarPosiciones() {
-        int width = 800;
-        int height = 600;
-        int margin = 50;
-        int radius = Math.min(width, height) / 2 - margin;
-
-        int n = grafo.tamano();
-        for (int i = 0; i < n; i++) {
-            double angle = 2 * Math.PI * i / n;
-            int x = (int) (width / 2 + radius * Math.cos(angle));
-            int y = (int) (height / 2 + radius * Math.sin(angle));
-            posiciones.put(grafo.getVertice(i), new Point(x, y));
-        }
-    }
-	
-	@Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        // Dibujar aristas
-        for (Vertice vertice:grafo.getVertices()) {
-            Point p1 = posiciones.get(vertice);
-            for (Vertice vecino:grafo.getVecinos(vertice.getId())) {
-                Point p2 = posiciones.get(vecino);
-                g2.draw(new Line2D.Double(p1.x, p1.y, p2.x, p2.y));
-            }
-        }
-
-        // Dibujar nodos
-        for (Map.Entry<Vertice, Point> entry : posiciones.entrySet()) {
-            Vertice vertice = entry.getKey();
-            Point p = entry.getValue();
-            g2.fillOval(p.x - 15, p.y - 15, 30, 30);
-            g2.drawString(String.valueOf(vertice.getId()), p.x - 5, p.y + 5);
-        }
-    }
 }

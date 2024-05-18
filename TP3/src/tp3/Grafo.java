@@ -5,7 +5,6 @@ import java.util.List;
 
 public class Grafo implements Comparable<Integer> {
 
-	private int[][] matrizDePesos;
 	private boolean[][] A;
 	private ArrayList<Vertice> vertices;
 
@@ -18,9 +17,16 @@ public class Grafo implements Comparable<Integer> {
 		return vertices.size();
 	}
 	
+	public void inicializarMatrizAdy() {
+		this.A = new boolean[tamano()][tamano()];
+		for (int i = 0; i < tamano(); i++) {
+		    for (int j = 0; j < tamano(); j++) {
+		    	this.A[i][j] = false;
+		    }
+		}
+	}
 	
 	public void agregarVertice(int v, int peso) {
-		Vertice ver = new Vertice(v, peso);
 		if (!existeV(v)) {
 			vertices.add(new Vertice(v, peso));
 		}
@@ -28,9 +34,7 @@ public class Grafo implements Comparable<Integer> {
 			throw new IllegalArgumentException();
 		}
 	}
-	
-	
-	
+
 	private boolean existeV(int ver) {
 		for (Vertice v:vertices) {
 			if (v.getId() == ver) {
@@ -40,30 +44,16 @@ public class Grafo implements Comparable<Integer> {
 		return false;
 	}
 	
-	
 //	public void agregarVertice(int v, int peso) {
 //		if (vertices.get(v) == null) {
 //			vertices.add(peso);
 //		}
 //	}
 	
-	private void inicializarMatrizAdy(int numVertices) {
-		for (int i = 0; i < numVertices; i++) {
-		    for (int j = 0; j < numVertices; j++) {
-		        this.A[i][j] = false;
-		    }
-		}
-	}
-	
 	public boolean[][] devolverMatrizAdy() {
         boolean[][] ady = A;
         return ady;
     }
-	
-	public int[][] devolverMatrizPesos() {
-		int[][] pesos = matrizDePesos;
-		return pesos;
-	}
 	
 	public void agregarArista(int v1, int v2) {
 		verificarVertice(v1);
@@ -84,7 +74,7 @@ public class Grafo implements Comparable<Integer> {
 		if( i < 0 )
 			throw new IllegalArgumentException("El vertice no puede ser negativo: " + i);
 		
-		if( i >= A.length )
+		if( i >= tamano())
 			throw new IllegalArgumentException("Los vertices deben estar entre 0 y |V|-1: " + i);
 	}
 	
@@ -130,5 +120,4 @@ public class Grafo implements Comparable<Integer> {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
 }

@@ -15,7 +15,7 @@ public class EncontrarCliqueMayorPeso {
 	    for (Vertice v:vertices) {
 	        boolean puedeAgregarse = true;
 	        for (Vertice vertice:clique) {
-	            if (!grafo.getVecinos(vertice.getId()).contains(v)) {
+	            if (grafo.getVecinos(vertice.getId()).contains(v)) {
 	                puedeAgregarse = false;
 	                break;
 	            }
