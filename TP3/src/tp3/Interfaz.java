@@ -85,6 +85,9 @@ public class Interfaz extends JPanel{
 		
 		//Graphics g = new Graphics();
 		
+		JPanel graphPanel = new JPanel();
+		graphPanel.add(visualizador);
+		
 	}
 
 	private void definirObjetosPantalla() {
@@ -195,6 +198,7 @@ public class Interfaz extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				visualizador = new VisualizadorGrafo(grafo);
 				visualizador.actualizarGrafo();
+				frame.getContentPane().add(visualizador);
 			}
 		});
 		botonMostrarG.setFont(new Font("Arial", Font.BOLD, 10));

@@ -1,6 +1,7 @@
 package tp3;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Prueba {
 
@@ -8,9 +9,11 @@ public class Prueba {
 		Grafo grafo = new Grafo();
 		
 		grafo.agregarVertice(0, 4);
-		grafo.agregarVertice(1, 5);
-		grafo.agregarVertice(2, 7);
-		grafo.agregarVertice(3, 8);
+		grafo.agregarVertice(1, 3);
+		grafo.agregarVertice(2, 2);
+		grafo.agregarVertice(3, 5);
+		grafo.agregarVertice(4, 2);
+		grafo.agregarVertice(5, 1);
 		
 		grafo.inicializarMatrizAdy();
 		
@@ -18,8 +21,10 @@ public class Prueba {
 		grafo.agregarArista(2, 0);
 		grafo.agregarArista(2, 1);
 		grafo.agregarArista(3, 1);
-
-
+		grafo.agregarArista(3, 2);
+		grafo.agregarArista(3, 0);
+		grafo.agregarArista(4, 5);
+		grafo.agregarArista(4, 3);
 		
 		EncontrarCliqueMayorPeso clique = new EncontrarCliqueMayorPeso();
 		ArrayList<Vertice> verticeClique = clique.encontrarCliqueMayorPeso(grafo);

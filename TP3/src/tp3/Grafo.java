@@ -3,7 +3,7 @@ package tp3;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Grafo implements Comparable<Integer> {
+public class Grafo {
 
 	private boolean[][] A;
 	private ArrayList<Vertice> vertices;
@@ -114,10 +114,13 @@ public class Grafo implements Comparable<Integer> {
 		}
 		return vecinos;
 	}
-
-	@Override
-	public int compareTo(Integer o) {
-		// TODO Auto-generated method stub
-		return 0;
+	
+	public boolean contiene(int v) {
+		for (Vertice ver:vertices) {
+			if (ver.getId() == v) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
