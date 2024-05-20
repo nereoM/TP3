@@ -1,5 +1,6 @@
 package tp3;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -14,9 +15,20 @@ public class VisualizadorGrafo extends JPanel{
 	
 	private Map<Vertice, Point> posiciones;
 	private Grafo grafo;
-
-	public void generarPosiciones(Grafo grafo) {
+	
+	public VisualizadorGrafo(Grafo grafo) {
 		this.grafo = grafo;
+        this.posiciones = new HashMap<>();
+        setPreferredSize(new Dimension(800, 600));
+    }
+	
+	public void actualizarGrafo() {
+        generarPosiciones();
+        revalidate();
+        repaint();
+    }
+
+	public void generarPosiciones() {
         int width = getWidth();
         int height = getHeight();
         int margin = 50;

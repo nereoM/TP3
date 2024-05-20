@@ -83,8 +83,6 @@ public class Interfaz extends JPanel{
 		
 		grafo = new Grafo();
 		
-		visualizador = new VisualizadorGrafo();
-		
 		//Graphics g = new Graphics();
 		
 	}
@@ -183,7 +181,7 @@ public class Interfaz extends JPanel{
 		botonGenerar = new JButton("Generar");
 		botonGenerar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				clique.EncontrarCliqueMayorPeso(grafo);
+				clique.encontrarCliqueMayorPeso(grafo);
 			}
 		});
 		botonGenerar.setBackground(new Color(192, 192, 192));
@@ -195,9 +193,8 @@ public class Interfaz extends JPanel{
 		botonMostrarG = new JButton("Mostrar grafo");
 		botonMostrarG.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				visualizador.generarPosiciones(grafo);
-				visualizador.revalidate();
-				visualizador.repaint();
+				visualizador = new VisualizadorGrafo(grafo);
+				visualizador.actualizarGrafo();
 			}
 		});
 		botonMostrarG.setFont(new Font("Arial", Font.BOLD, 10));
