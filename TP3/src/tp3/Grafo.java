@@ -26,9 +26,9 @@ public class Grafo {
 		}
 	}
 	
-	public void agregarVertice(int v, int peso) {
+	public void agregarVertice(int v, double d) {
 		if (!existeV(v)) {
-			vertices.add(new Vertice(v, peso));
+			vertices.add(new Vertice(v, d));
 		}
 		else {
 			throw new IllegalArgumentException();
@@ -91,7 +91,7 @@ public class Grafo {
 		return A[i][j];
 	}
 
-	public int getPesoVertice(int v) {
+	public double getPesoVertice(int v) {
 		return vertices.get(v).getPeso();
 	}
 	

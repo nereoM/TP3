@@ -1,20 +1,20 @@
 package tp3;
 
-public class Vertice implements Comparable<Vertice>{
+public class Vertice {
 
 	private int id;
-	private int peso;
+	private double peso;
 	
-	public Vertice(int v, int peso) {
+	public Vertice(int v, double d) {
 		agregarVertice(v);
-		agregarPesoVertice(peso);
+		agregarPesoVertice(d);
 	}
 	
 	public int getId() {
 		return this.id;
 	}
 	
-	public int getPeso() {
+	public double getPeso() {
 		return this.peso;
 	}
 	
@@ -23,12 +23,12 @@ public class Vertice implements Comparable<Vertice>{
 		this.id = v;
 	}
 	
-	public void agregarPesoVertice(int peso) {
+	public void agregarPesoVertice(double d) {
 		verificarVertice(id);
-		if (peso <= 0) {
+		if (d <= 0) {
 			throw new IllegalArgumentException();
 		}
-		this.peso = peso;
+		this.peso = d;
 	}
 	
 	private void verificarVertice(int i)
@@ -36,11 +36,4 @@ public class Vertice implements Comparable<Vertice>{
 		if( i < 0 )
 			throw new IllegalArgumentException("El vertice no puede ser negativo: " + i);
 	}
-
-	@Override
-	public int compareTo(Vertice o) {
-		return this.getPeso() - o.getPeso();
-	}
-	
-	
 }

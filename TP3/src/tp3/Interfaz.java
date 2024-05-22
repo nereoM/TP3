@@ -183,8 +183,9 @@ public class Interfaz extends JPanel{
 		
 		botonGenerar = new JButton("Generar");
 		botonGenerar.addActionListener(new ActionListener() {
+			@SuppressWarnings("static-access")
 			public void actionPerformed(ActionEvent e) {
-				clique.encontrarCliqueMayorPeso(grafo);
+				clique.encontrarCliqueDeMayorPeso(grafo);
 			}
 		});
 		botonGenerar.setBackground(new Color(192, 192, 192));
