@@ -14,6 +14,7 @@ import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.geom.Line2D;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JCheckBox;
@@ -24,7 +25,7 @@ import javax.swing.UIManager;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class Interfaz extends JPanel{
+public class Interfaz {
 
 	private JFrame frame;
 	private JTextField textVertice, textPeso, textArista1, textArista2;
@@ -32,11 +33,9 @@ public class Interfaz extends JPanel{
 	private JButton botonAgregar, botonArista, botonGenerar;
 	private JCheckBox checkManual, checkAutomatico, checkGrafoCompleto;
 	private Grafo grafo;
-	private Map<Vertice, Point> posiciones;
 	private EncontrarCliqueMayorPeso clique;
 	private JButton botonMostrarG;
 	private JButton botonVerticesCargados;
-	private VisualizadorGrafo visualizador;
 
 	/**
 	 * Launch the application.
@@ -86,7 +85,6 @@ public class Interfaz extends JPanel{
 		//Graphics g = new Graphics();
 		
 		JPanel graphPanel = new JPanel();
-		graphPanel.add(visualizador);
 		
 	}
 
@@ -185,7 +183,11 @@ public class Interfaz extends JPanel{
 		botonGenerar.addActionListener(new ActionListener() {
 			@SuppressWarnings("static-access")
 			public void actionPerformed(ActionEvent e) {
-				clique.encontrarCliqueDeMayorPeso(grafo);
+				List<Vertice> cliqueMaxPorPeso = clique.encontrarCliqueDeMayorPeso(grafo);
+				AdaptadorDeGrafoCliqueMax frame = new AdaptadorDeGrafoCliqueMax(cliqueMaxPorPeso);
+		        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		        frame.setSize(400, 400);
+		        frame.setVisible(true);
 			}
 		});
 		botonGenerar.setBackground(new Color(192, 192, 192));
@@ -194,18 +196,19 @@ public class Interfaz extends JPanel{
 		botonGenerar.setBounds(751, 647, 89, 23);
 		frame.getContentPane().add(botonGenerar);
 		
-		botonMostrarG = new JButton("Mostrar grafo");
+		botonMostrarG = new JButton("Mostrar grafo original");
 		botonMostrarG.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				visualizador = new VisualizadorGrafo(grafo);
-				visualizador.actualizarGrafo();
-				frame.getContentPane().add(visualizador);
+				AdaptadorDeGrafo frame = new AdaptadorDeGrafo(grafo);
+		        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		        frame.setSize(400, 400);
+		        frame.setVisible(true);
 			}
 		});
 		botonMostrarG.setFont(new Font("Arial", Font.BOLD, 10));
 		botonMostrarG.setBorderPainted(false);
 		botonMostrarG.setBackground(new Color(192, 192, 192));
-		botonMostrarG.setBounds(578, 13, 103, 23);
+		botonMostrarG.setBounds(465, 44, 139, 23);
 		frame.getContentPane().add(botonMostrarG);
 		
 		botonVerticesCargados = new JButton("Grafo cargado");

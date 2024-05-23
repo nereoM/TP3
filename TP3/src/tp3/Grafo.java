@@ -44,12 +44,6 @@ public class Grafo {
 		return false;
 	}
 	
-//	public void agregarVertice(int v, int peso) {
-//		if (vertices.get(v) == null) {
-//			vertices.add(peso);
-//		}
-//	}
-	
 	public boolean[][] devolverMatrizAdy() {
         boolean[][] ady = A;
         return ady;
