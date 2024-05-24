@@ -1,7 +1,9 @@
 package tp3;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Grafo {
 
@@ -87,6 +89,14 @@ public class Grafo {
 
 	public double getPesoVertice(int v) {
 		return vertices.get(v).getPeso();
+	}
+	
+	public Map<String, Double> devolverPesosVertices() {
+		Map<String, Double> pesos = new HashMap<String, Double>();
+		for(Vertice v:vertices) {
+			pesos.put(v.getId()+"", v.getPeso());
+		}
+		return pesos;
 	}
 	
 	

@@ -9,6 +9,7 @@ import com.mxgraph.layout.mxCircleLayout;
 import com.mxgraph.swing.mxGraphComponent;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.*;
 
@@ -17,13 +18,22 @@ public class AdaptadorDeGrafoCliqueMax extends JFrame {
 
     private static final long serialVersionUID = 1L;
 
-    public AdaptadorDeGrafoCliqueMax(List<Vertice> clique) {
+    public AdaptadorDeGrafoCliqueMax(List<Vertice> clique, Map<String, Double> vertexWeights) {
         Graph<String, DefaultEdge> graph = convertToJGraphT(clique);
 
         JGraphXAdapter<String, DefaultEdge> graphAdapter = new JGraphXAdapter<>(graph);
 
         mxCircleLayout layout = new mxCircleLayout(graphAdapter);
         layout.execute(graphAdapter.getDefaultParent());
+        
+        for (Map.Entry<String, Double> entry : vertexWeights.entrySet()) {
+            String vertex = entry.getKey();
+            Double weight = entry.getValue();
+            Object cell = graphAdapter.getVertexToCellMap().get(vertex);
+            if (cell != null) {
+                graphAdapter.getModel().setValue(cell, vertex + " (" + weight + ")");
+            }
+        }
 
         mxGraphComponent graphComponent = new mxGraphComponent(graphAdapter);
         getContentPane().add(graphComponent);

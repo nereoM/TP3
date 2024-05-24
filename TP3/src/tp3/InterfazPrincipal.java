@@ -25,7 +25,7 @@ import javax.swing.UIManager;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class Interfaz {
+public class InterfazPrincipal {
 
 	private JFrame frame;
 	private JTextField textVertice, textPeso, textArista1, textArista2;
@@ -44,7 +44,7 @@ public class Interfaz {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Interfaz window = new Interfaz();
+					InterfazPrincipal window = new InterfazPrincipal();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -56,7 +56,7 @@ public class Interfaz {
 	/**
 	 * Create the application.
 	 */
-	public Interfaz() {
+	public InterfazPrincipal() {
 		initialize();
 	}
 
@@ -81,11 +81,6 @@ public class Interfaz {
 		botones();
 		
 		grafo = new Grafo();
-		
-		//Graphics g = new Graphics();
-		
-		JPanel graphPanel = new JPanel();
-		
 	}
 
 	private void definirObjetosPantalla() {
@@ -184,7 +179,7 @@ public class Interfaz {
 			@SuppressWarnings("static-access")
 			public void actionPerformed(ActionEvent e) {
 				List<Vertice> cliqueMaxPorPeso = clique.encontrarCliqueDeMayorPeso(grafo);
-				AdaptadorDeGrafoCliqueMax frame = new AdaptadorDeGrafoCliqueMax(cliqueMaxPorPeso);
+				AdaptadorDeGrafoCliqueMax frame = new AdaptadorDeGrafoCliqueMax(cliqueMaxPorPeso, devolverPesosVertices(cliqueMaxPorPeso));
 		        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		        frame.setSize(400, 400);
 		        frame.setVisible(true);
@@ -199,7 +194,7 @@ public class Interfaz {
 		botonMostrarG = new JButton("Mostrar grafo original");
 		botonMostrarG.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AdaptadorDeGrafo frame = new AdaptadorDeGrafo(grafo);
+				AdaptadorDeGrafo frame = new AdaptadorDeGrafo(grafo, grafo.devolverPesosVertices());
 		        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		        frame.setSize(400, 400);
 		        frame.setVisible(true);
@@ -232,5 +227,13 @@ public class Interfaz {
 			cartelError.setText(e.getMessage());
 		}
 		
+	}
+	 
+    private Map<String, Double> devolverPesosVertices(List<Vertice> clique) {
+		Map<String, Double> pesos = new HashMap<String, Double>();
+		for(Vertice v:clique) {
+			pesos.put(v.getId()+"", v.getPeso());
+		}
+		return pesos;
 	}
 }

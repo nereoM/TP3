@@ -8,6 +8,8 @@ import org.jgrapht.ext.JGraphXAdapter;
 import com.mxgraph.layout.mxCircleLayout;
 import com.mxgraph.swing.mxGraphComponent;
 
+import java.util.Map;
+
 import javax.swing.*;
 
 
@@ -15,7 +17,7 @@ public class AdaptadorDeGrafo extends JFrame {
 
     private static final long serialVersionUID = 1L;
 
-    public AdaptadorDeGrafo(Grafo grafo) {
+    public AdaptadorDeGrafo(Grafo grafo, Map<String, Double> vertexWeights) {
         Graph<String, DefaultEdge> graph = convertToJGraphT(grafo);
 
         // Adaptar el grafo a JGraphX
@@ -24,6 +26,16 @@ public class AdaptadorDeGrafo extends JFrame {
         // Configurar el layout
         mxCircleLayout layout = new mxCircleLayout(graphAdapter);
         layout.execute(graphAdapter.getDefaultParent());
+        
+        // Mostrar los pesos de los vértices
+        for (Map.Entry<String, Double> entry : vertexWeights.entrySet()) {
+            String vertex = entry.getKey();
+            Double weight = entry.getValue();
+            Object cell = graphAdapter.getVertexToCellMap().get(vertex);
+            if (cell != null) {
+                graphAdapter.getModel().setValue(cell, vertex + " (" + weight + ")");
+            }
+        }
 
         // Mostrar el grafo
         mxGraphComponent graphComponent = new mxGraphComponent(graphAdapter);
