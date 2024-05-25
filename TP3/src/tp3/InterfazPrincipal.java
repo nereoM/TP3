@@ -36,6 +36,7 @@ public class InterfazPrincipal {
 	private EncontrarCliqueMayorPeso clique;
 	private JButton botonMostrarG;
 	private JButton botonVerticesCargados;
+	private LectorTxt lector;
 
 	/**
 	 * Launch the application.
@@ -72,7 +73,7 @@ public class InterfazPrincipal {
 		}
 		
 		frame = new JFrame();
-		frame.setBounds(100, 100, 862, 720);
+		frame.setBounds(100, 100, 572, 487);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -81,62 +82,80 @@ public class InterfazPrincipal {
 		botones();
 		
 		grafo = new Grafo();
+		
+		lector = new LectorTxt();
 	}
 
 	private void definirObjetosPantalla() {
 		textVertice = new JTextField();
-		textVertice.setBounds(78, 14, 52, 20);
+		textVertice.setBounds(62, 108, 52, 20);
 		frame.getContentPane().add(textVertice);
 		textVertice.setColumns(10);
 		
 		textPeso = new JTextField();
-		textPeso.setBounds(78, 45, 52, 20);
+		textPeso.setBounds(62, 139, 52, 20);
 		frame.getContentPane().add(textPeso);
 		textPeso.setColumns(10);
 		
 		labelVertice = new JLabel("Vertice: ");
 		labelVertice.setFont(new Font("Arial", Font.BOLD, 12));
-		labelVertice.setBounds(22, 11, 52, 26);
+		labelVertice.setBounds(6, 105, 52, 26);
 		frame.getContentPane().add(labelVertice);
 		
 		labelPeso = new JLabel("Peso: ");
 		labelPeso.setFont(new Font("Arial", Font.BOLD, 12));
-		labelPeso.setBounds(22, 48, 46, 14);
+		labelPeso.setBounds(6, 142, 46, 14);
 		frame.getContentPane().add(labelPeso);
 		
 		checkManual = new JCheckBox("Manual");
+		checkManual.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (checkManual.isSelected()) {
+					grafo.inicializarMatrizAdy();     									// MIRAR COMO REINICIAR LA MATRIZ Y QUE EL OBJETO QUEDE VACIO
+				}
+			}
+		});
 		checkManual.setFont(new Font("Arial", Font.BOLD, 11));
-		checkManual.setBounds(743, 7, 97, 23);
+		checkManual.setBounds(70, 7, 97, 23);
 		frame.getContentPane().add(checkManual);
 		
 		checkAutomatico = new JCheckBox("Automatico");
+		checkAutomatico.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (checkAutomatico.isSelected()) {
+					lector.leerArchivoVertices(grafo);
+					grafo.inicializarMatrizAdy();
+					lector.leerArchivoAristas(grafo);
+				}
+			}
+		});
 		checkAutomatico.setFont(new Font("Arial", Font.BOLD, 11));
-		checkAutomatico.setBounds(743, 33, 97, 23);
+		checkAutomatico.setBounds(70, 33, 97, 23);
 		frame.getContentPane().add(checkAutomatico);
 		
 		textArista1 = new JTextField();
-		textArista1.setBounds(369, 14, 38, 20);
+		textArista1.setBounds(363, 108, 38, 20);
 		frame.getContentPane().add(textArista1);
 		textArista1.setColumns(10);
 		
 		labelArista = new JLabel("Arista: ");
 		labelArista.setFont(new Font("Arial", Font.BOLD, 12));
-		labelArista.setBounds(313, 17, 46, 14);
+		labelArista.setBounds(307, 111, 46, 14);
 		frame.getContentPane().add(labelArista);
 		
 		textArista2 = new JTextField();
-		textArista2.setBounds(417, 14, 38, 20);
+		textArista2.setBounds(411, 108, 38, 20);
 		frame.getContentPane().add(textArista2);
 		textArista2.setColumns(10);
 		
 		labelCargar = new JLabel("Cargar: ");
 		labelCargar.setFont(new Font("Arial", Font.BOLD, 12));
-		labelCargar.setBounds(691, 11, 46, 14);
+		labelCargar.setBounds(12, 11, 46, 14);
 		frame.getContentPane().add(labelCargar);
 		
 		checkGrafoCompleto = new JCheckBox("Vertices cargados");
 		checkGrafoCompleto.setFont(new Font("Arial", Font.BOLD, 9));
-		checkGrafoCompleto.setBounds(22, 72, 111, 23);
+		checkGrafoCompleto.setBounds(6, 173, 111, 23);
 		frame.getContentPane().add(checkGrafoCompleto);
 	}
 	
@@ -150,7 +169,7 @@ public class InterfazPrincipal {
 		botonAgregar.setBackground(new Color(192, 192, 192));
 		botonAgregar.setBorderPainted(false);
 		botonAgregar.setFont(new Font("Arial", Font.BOLD, 12));
-		botonAgregar.setBounds(154, 13, 89, 23);
+		botonAgregar.setBounds(124, 107, 89, 23);
 		frame.getContentPane().add(botonAgregar);
 		
 		botonArista = new JButton("Agregar arista");
@@ -165,13 +184,13 @@ public class InterfazPrincipal {
 		botonArista.setBackground(new Color(192, 192, 192));
 		botonArista.setHorizontalAlignment(SwingConstants.LEFT);
 		botonArista.setFont(new Font("Arial", Font.BOLD, 10));
-		botonArista.setBounds(465, 13, 103, 23);
+		botonArista.setBounds(307, 138, 103, 23);
 		frame.getContentPane().add(botonArista);
 		
 		cartelError = new JLabel("Vertice no valido!");
 		cartelError.setVisible(false);
 		cartelError.setFont(new Font("Arial", Font.BOLD, 9));
-		cartelError.setBounds(154, 48, 89, 14);
+		cartelError.setBounds(124, 143, 89, 14);
 		frame.getContentPane().add(cartelError);
 		
 		botonGenerar = new JButton("Generar");
@@ -188,7 +207,7 @@ public class InterfazPrincipal {
 		botonGenerar.setBackground(new Color(192, 192, 192));
 		botonGenerar.setBorderPainted(false);
 		botonGenerar.setFont(new Font("Arial", Font.BOLD, 12));
-		botonGenerar.setBounds(751, 647, 89, 23);
+		botonGenerar.setBounds(237, 414, 89, 23);
 		frame.getContentPane().add(botonGenerar);
 		
 		botonMostrarG = new JButton("Mostrar grafo original");
@@ -203,10 +222,11 @@ public class InterfazPrincipal {
 		botonMostrarG.setFont(new Font("Arial", Font.BOLD, 10));
 		botonMostrarG.setBorderPainted(false);
 		botonMostrarG.setBackground(new Color(192, 192, 192));
-		botonMostrarG.setBounds(465, 44, 139, 23);
+		botonMostrarG.setBounds(10, 414, 139, 23);
 		frame.getContentPane().add(botonMostrarG);
 		
 		botonVerticesCargados = new JButton("Grafo cargado");
+		botonVerticesCargados.setHorizontalAlignment(SwingConstants.LEFT);
 		botonVerticesCargados.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				grafo.inicializarMatrizAdy();
@@ -215,7 +235,7 @@ public class InterfazPrincipal {
 		botonVerticesCargados.setBorderPainted(false);
 		botonVerticesCargados.setBackground(new Color(192, 192, 192));
 		botonVerticesCargados.setFont(new Font("Arial", Font.BOLD, 10));
-		botonVerticesCargados.setBounds(253, 44, 106, 23);
+		botonVerticesCargados.setBounds(134, 172, 103, 23);
 		frame.getContentPane().add(botonVerticesCargados);
 	}
 	
