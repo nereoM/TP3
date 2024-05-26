@@ -19,7 +19,7 @@ public class EncontrarCliqueMayorPeso {
 
 	        List<Vertice> clique = new ArrayList<Vertice>();
 
-	        for (Vertice vertice : verticesOrdenados) {
+	        for (Vertice vertice:verticesOrdenados) {
 	            if (esCompatible(vertice, clique, grafo)) {
 	                clique.add(vertice);
 	            }
@@ -32,7 +32,7 @@ public class EncontrarCliqueMayorPeso {
 	            return true;
 	        }
 
-	        for (Vertice verticeEnClique : clique) {
+	        for (Vertice verticeEnClique:clique) {
 	            if (!sonCompatibles(vertice, verticeEnClique, grafo)) {
 	                return false;
 	            }

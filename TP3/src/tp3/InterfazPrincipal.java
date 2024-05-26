@@ -29,7 +29,7 @@ public class InterfazPrincipal {
 
 	private JFrame frame;
 	private JTextField textVertice, textPeso, textArista1, textArista2;
-	private JLabel labelVertice, labelPeso, labelArista, labelCargar, cartelError;
+	private JLabel labelVertice, labelPeso, labelArista, labelCargar, cartelError, cartelError2;
 	private JButton botonAgregar, botonArista, botonGenerar;
 	private JCheckBox checkManual, checkAutomatico, checkGrafoCompleto;
 	private Grafo grafo;
@@ -37,6 +37,7 @@ public class InterfazPrincipal {
 	private JButton botonMostrarG;
 	private JButton botonVerticesCargados;
 	private LectorTxt lector;
+	private JLabel labelTiempoEjecucion;
 
 	/**
 	 * Launch the application.
@@ -107,32 +108,6 @@ public class InterfazPrincipal {
 		labelPeso.setBounds(6, 142, 46, 14);
 		frame.getContentPane().add(labelPeso);
 		
-		checkManual = new JCheckBox("Manual");
-		checkManual.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (checkManual.isSelected()) {
-					grafo.inicializarMatrizAdy();     									// MIRAR COMO REINICIAR LA MATRIZ Y QUE EL OBJETO QUEDE VACIO
-				}
-			}
-		});
-		checkManual.setFont(new Font("Arial", Font.BOLD, 11));
-		checkManual.setBounds(70, 7, 97, 23);
-		frame.getContentPane().add(checkManual);
-		
-		checkAutomatico = new JCheckBox("Automatico");
-		checkAutomatico.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (checkAutomatico.isSelected()) {
-					lector.leerArchivoVertices(grafo);
-					grafo.inicializarMatrizAdy();
-					lector.leerArchivoAristas(grafo);
-				}
-			}
-		});
-		checkAutomatico.setFont(new Font("Arial", Font.BOLD, 11));
-		checkAutomatico.setBounds(70, 33, 97, 23);
-		frame.getContentPane().add(checkAutomatico);
-		
 		textArista1 = new JTextField();
 		textArista1.setBounds(363, 108, 38, 20);
 		frame.getContentPane().add(textArista1);
@@ -157,12 +132,33 @@ public class InterfazPrincipal {
 		checkGrafoCompleto.setFont(new Font("Arial", Font.BOLD, 9));
 		checkGrafoCompleto.setBounds(6, 173, 111, 23);
 		frame.getContentPane().add(checkGrafoCompleto);
+		
+		cartelError = new JLabel("");
+		cartelError.setVisible(false);
+		cartelError.setFont(new Font("Arial", Font.BOLD, 9));
+		cartelError.setBounds(124, 143, 113, 14);
+		frame.getContentPane().add(cartelError);
+		
+		cartelError2 = new JLabel("");
+		cartelError2.setVisible(false);
+		cartelError2.setFont(new Font("Arial", Font.BOLD, 9));
+		cartelError2.setBounds(180, 37, 111, 14);
+		frame.getContentPane().add(cartelError2);
+		
+		labelTiempoEjecucion = new JLabel("");
+		labelTiempoEjecucion.setVisible(false);
+		labelTiempoEjecucion.setFont(new Font("Arial", Font.BOLD, 9));
+		labelTiempoEjecucion.setBounds(6, 246, 186, 14);
+		frame.getContentPane().add(labelTiempoEjecucion);
+
 	}
 	
 	private void botones() {
 		botonAgregar = new JButton("Agregar");
+		botonAgregar.setEnabled(false);
 		botonAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				cartelError.setVisible(false);
 				agregarVerticeConPeso();
 			}
 		});
@@ -187,21 +183,21 @@ public class InterfazPrincipal {
 		botonArista.setBounds(307, 138, 103, 23);
 		frame.getContentPane().add(botonArista);
 		
-		cartelError = new JLabel("Vertice no valido!");
-		cartelError.setVisible(false);
-		cartelError.setFont(new Font("Arial", Font.BOLD, 9));
-		cartelError.setBounds(124, 143, 89, 14);
-		frame.getContentPane().add(cartelError);
-		
 		botonGenerar = new JButton("Generar");
 		botonGenerar.addActionListener(new ActionListener() {
 			@SuppressWarnings("static-access")
 			public void actionPerformed(ActionEvent e) {
+				grafo.randomizarPeso();
+				long startTime = System.nanoTime();
 				List<Vertice> cliqueMaxPorPeso = clique.encontrarCliqueDeMayorPeso(grafo);
+				double tiempo = medirTiempo(startTime);
 				AdaptadorDeGrafoCliqueMax frame = new AdaptadorDeGrafoCliqueMax(cliqueMaxPorPeso, devolverPesosVertices(cliqueMaxPorPeso));
 		        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		        frame.setSize(400, 400);
 		        frame.setVisible(true);
+		        frame.setResizable(false);
+		        labelTiempoEjecucion.setText("Tiempo de ejecucion: " + tiempo + " ns");							// FALTA AGREGAR CANT DE NODOS EVALUADOS
+		        labelTiempoEjecucion.setVisible(true);
 			}
 		});
 		botonGenerar.setBackground(new Color(192, 192, 192));
@@ -217,6 +213,8 @@ public class InterfazPrincipal {
 		        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		        frame.setSize(400, 400);
 		        frame.setVisible(true);
+		        frame.setResizable(false);
+		        
 			}
 		});
 		botonMostrarG.setFont(new Font("Arial", Font.BOLD, 10));
@@ -237,14 +235,57 @@ public class InterfazPrincipal {
 		botonVerticesCargados.setFont(new Font("Arial", Font.BOLD, 10));
 		botonVerticesCargados.setBounds(134, 172, 103, 23);
 		frame.getContentPane().add(botonVerticesCargados);
+		
+		checkManual = new JCheckBox("Manual");
+		checkManual.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (checkManual.isSelected()) {
+					grafo = new Grafo();
+					botonAgregar.setEnabled(true);
+				}
+				else {
+					botonAgregar.setEnabled(false);
+				}
+			}
+		});
+		
+		checkAutomatico = new JCheckBox("Automatico");
+		checkAutomatico.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (checkAutomatico.isSelected()) {
+					try {
+						lector.leerArchivoVertices(grafo);
+						grafo.inicializarMatrizAdy();
+						lector.leerArchivoAristas(grafo);
+						botonAgregar.setEnabled(false);
+					} catch (IllegalArgumentException e1) {
+						cartelError2.setVisible(true);
+						cartelError2.setText("Grafo ya cargado!");
+					}
+					
+				}
+				else {
+					cartelError2.setVisible(false);
+				}
+			}
+		});
+		
+		checkManual.setFont(new Font("Arial", Font.BOLD, 11));
+		checkManual.setBounds(70, 7, 97, 23);
+		frame.getContentPane().add(checkManual);
+		
+		checkAutomatico.setFont(new Font("Arial", Font.BOLD, 11));
+		checkAutomatico.setBounds(70, 33, 97, 23);
+		frame.getContentPane().add(checkAutomatico);
 	}
 	
 	private void agregarVerticeConPeso() {
 		try {
 			grafo.agregarVertice(Integer.parseInt(textVertice.getText()), Integer.parseInt(textPeso.getText()));
 		}
-		catch (Exception e) {
+		catch (IllegalArgumentException e) {
 			cartelError.setText(e.getMessage());
+			cartelError.setVisible(true);
 		}
 		
 	}
@@ -255,5 +296,11 @@ public class InterfazPrincipal {
 			pesos.put(v.getId()+"", v.getPeso());
 		}
 		return pesos;
+	}
+    
+    private double medirTiempo(long startTime) {
+		long endTime = System.nanoTime();
+		long duration = (endTime - startTime);
+        return (double) duration / 1_000_000_000.0;
 	}
 }

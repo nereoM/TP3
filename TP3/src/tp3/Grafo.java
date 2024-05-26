@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Grafo {
 
@@ -28,12 +29,12 @@ public class Grafo {
 		}
 	}
 	
-	public void agregarVertice(int v, double d) {
-		if (!existeV(v)) {
-			vertices.add(new Vertice(v, d));
+	public void agregarVertice(int v, double peso) {
+		if (v >= 0 && peso >= 1 && !existeV(v)) {
+			vertices.add(new Vertice(v, peso));
 		}
 		else {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Argumento/s invalido/s!");
 		}
 	}
 
@@ -59,10 +60,6 @@ public class Grafo {
 			A[v1][v2] = true;
 			A[v2][v1] = true;
 		}
-	}
-	
-	public boolean existeVertice(int v) {
-		return vertices.contains(v);
 	}
 	
 	private void verificarVertice(int i)
@@ -119,12 +116,12 @@ public class Grafo {
 		return vecinos;
 	}
 	
-	public boolean contiene(int v) {
-		for (Vertice ver:vertices) {
-			if (ver.getId() == v) {
-				return true;
-			}
-		}
-		return false;
+	public void randomizarPeso() {
+		int min = 0;
+        int max = tamano();
+        int vertice = ThreadLocalRandom.current().nextInt(min, max);
+        int peso = ThreadLocalRandom.current().nextInt(1, 11);
+        vertices.get(vertice).agregarPesoVertice(peso);
+        System.out.println(vertice + ", " + peso);
 	}
 }
