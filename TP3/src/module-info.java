@@ -9,4 +9,5 @@ module TP3 {
 	requires org.jgrapht.core;
 	requires org.jgrapht.ext;
 	requires com.github.vlsi.mxgraph.jgraphx;
+	requires junit;
 }
