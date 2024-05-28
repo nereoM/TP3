@@ -31,14 +31,12 @@ public class InterfazPrincipal {
 	private JFrame frame;
 	private JTextField textVertice, textPeso, textArista1, textArista2;
 	private JLabel labelVertice, labelPeso, labelArista, labelCargar, cartelError, cartelError2;
-	private JButton botonAgregar, botonArista, botonGenerar;
+	private JButton botonAgregar, botonArista, botonGenerar, botonGenerarCantVertices, botonVerticesCargados, botonMostrarG;
 	private JCheckBox checkManual, checkAutomatico, checkGrafoCompleto;
 	private Grafo grafo;
 	private EncontrarCliqueMayorPesoPorPeso clique;
 	private EncontrarCliqueMayorPesoTotal clique2;
 	private EncontrarCliqueMayorCantVertices clique3;
-	private JButton botonMostrarG;
-	private JButton botonVerticesCargados;
 	private LectorTxt lector;
 	private JLabel labelTiempoEjecucion;
 	private DecimalFormat decimalFormat;
@@ -221,6 +219,38 @@ public class InterfazPrincipal {
 			}
 
 		});
+		
+		botonGenerarCantVertices = new JButton("Generar");
+		botonGenerarCantVertices.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					verificarGrafoCargado();
+					grafo.randomizarPeso();
+					clique3 = new EncontrarCliqueMayorCantVertices();
+					long startTime = System.nanoTime();
+					List<Vertice> cliqueMaxPorPeso = clique.encontrarCliqueDeMayorPeso(grafo);
+					double tiempo = medirTiempo(startTime);
+			        String tiempoFormateado = decimalFormat.format(tiempo);
+			        AdaptadorDeGrafoCliqueMax frame = new AdaptadorDeGrafoCliqueMax(cliqueMaxPorPeso, devolverPesosVertices(cliqueMaxPorPeso));
+			        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			        frame.setSize(400, 400);
+			        frame.setBounds(400, 150, 400, 400);
+			        frame.setVisible(true);
+			        frame.setResizable(false);
+			        labelTiempoEjecucion.setText("Tiempo de ejecucion: " + tiempoFormateado + " ms");							// FALTA AGREGAR CANT DE NODOS EVALUADOS
+			        labelTiempoEjecucion.setVisible(true);
+				} catch (RuntimeException e1) {
+					cartelError2.setText(e1.getMessage());
+					cartelError2.setVisible(true);
+				}
+			}
+		});
+		botonGenerarCantVertices.setBackground(new Color(192, 192, 192));
+		botonGenerarCantVertices.setBorderPainted(false);
+		botonGenerarCantVertices.setFont(new Font("Arial", Font.BOLD, 12));
+		botonGenerarCantVertices.setBounds(457, 414, 89, 23);
+		frame.getContentPane().add(botonGenerarCantVertices);
+		
 		botonGenerar.setBackground(new Color(192, 192, 192));
 		botonGenerar.setBorderPainted(false);
 		botonGenerar.setFont(new Font("Arial", Font.BOLD, 12));
