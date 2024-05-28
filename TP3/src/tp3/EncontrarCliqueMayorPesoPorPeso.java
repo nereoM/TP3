@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
-public class EncontrarCliqueMayorPeso {
+public class EncontrarCliqueMayorPesoPorPeso {
 	
 	 public static List<Vertice> encontrarCliqueDeMayorPeso(Grafo grafo) {
 	        List<Vertice> verticesOrdenados = new ArrayList<Vertice>(grafo.getVertices());

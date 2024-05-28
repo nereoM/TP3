@@ -29,7 +29,7 @@ public class Prueba {
 		grafo.agregarArista(5, 4);
 		grafo.agregarArista(4, 2);
 		
-		EncontrarCliqueMayorPeso clique = new EncontrarCliqueMayorPeso();
+		EncontrarCliqueMayorPesoPorPeso clique = new EncontrarCliqueMayorPesoPorPeso();
 		List<Vertice> verticeClique = clique.encontrarCliqueDeMayorPeso(grafo);
 		
 		System.out.print("[");

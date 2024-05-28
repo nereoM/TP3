@@ -13,6 +13,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.geom.Line2D;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,11 +34,14 @@ public class InterfazPrincipal {
 	private JButton botonAgregar, botonArista, botonGenerar;
 	private JCheckBox checkManual, checkAutomatico, checkGrafoCompleto;
 	private Grafo grafo;
-	private EncontrarCliqueMayorPeso clique;
+	private EncontrarCliqueMayorPesoPorPeso clique;
+	private EncontrarCliqueMayorPesoTotal clique2;
+	private EncontrarCliqueMayorCantVertices clique3;
 	private JButton botonMostrarG;
 	private JButton botonVerticesCargados;
 	private LectorTxt lector;
 	private JLabel labelTiempoEjecucion;
+	private DecimalFormat decimalFormat;
 
 	/**
 	 * Launch the application.
@@ -74,7 +78,7 @@ public class InterfazPrincipal {
 		}
 		
 		frame = new JFrame();
-		frame.setBounds(100, 100, 572, 487);
+		frame.setBounds(200, 150, 572, 487);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -85,6 +89,8 @@ public class InterfazPrincipal {
 		grafo = new Grafo();
 		
 		lector = new LectorTxt();
+		
+		decimalFormat = new DecimalFormat("#.###");
 	}
 
 	private void definirObjetosPantalla() {
@@ -142,13 +148,13 @@ public class InterfazPrincipal {
 		cartelError2 = new JLabel("");
 		cartelError2.setVisible(false);
 		cartelError2.setFont(new Font("Arial", Font.BOLD, 9));
-		cartelError2.setBounds(180, 37, 111, 14);
+		cartelError2.setBounds(180, 37, 146, 14);
 		frame.getContentPane().add(cartelError2);
 		
 		labelTiempoEjecucion = new JLabel("");
 		labelTiempoEjecucion.setVisible(false);
 		labelTiempoEjecucion.setFont(new Font("Arial", Font.BOLD, 9));
-		labelTiempoEjecucion.setBounds(6, 246, 186, 14);
+		labelTiempoEjecucion.setBounds(6, 300, 186, 14);
 		frame.getContentPane().add(labelTiempoEjecucion);
 
 	}
@@ -187,18 +193,33 @@ public class InterfazPrincipal {
 		botonGenerar.addActionListener(new ActionListener() {
 			@SuppressWarnings("static-access")
 			public void actionPerformed(ActionEvent e) {
-				grafo.randomizarPeso();
-				long startTime = System.nanoTime();
-				List<Vertice> cliqueMaxPorPeso = clique.encontrarCliqueDeMayorPeso(grafo);
-				double tiempo = medirTiempo(startTime);
-				AdaptadorDeGrafoCliqueMax frame = new AdaptadorDeGrafoCliqueMax(cliqueMaxPorPeso, devolverPesosVertices(cliqueMaxPorPeso));
-		        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		        frame.setSize(400, 400);
-		        frame.setVisible(true);
-		        frame.setResizable(false);
-		        labelTiempoEjecucion.setText("Tiempo de ejecucion: " + tiempo + " ns");							// FALTA AGREGAR CANT DE NODOS EVALUADOS
-		        labelTiempoEjecucion.setVisible(true);
+				try {
+					verificarGrafoCargado();
+					grafo.randomizarPeso();
+					//clique2 = new EncontrarCliqueMayorPesoTotal();
+					clique3 = new EncontrarCliqueMayorCantVertices();
+					long startTime = System.nanoTime();
+					//List<Vertice> cliqueMaxCantVertices = clique2.encontrarCliqueMayorPeso(grafo);
+					//List<Vertice> cliqueMaxPorPeso = clique.encontrarCliqueDeMayorPeso(grafo);
+					List<Vertice> cliqueMaxCantVertices = clique3.encontrarCliqueMayorCantVertices(grafo);
+					double tiempo = medirTiempo(startTime);
+			        String tiempoFormateado = decimalFormat.format(tiempo);
+					//AdaptadorDeGrafoCliqueMax frame = new AdaptadorDeGrafoCliqueMax(cliqueMaxPorPeso, devolverPesosVertices(cliqueMaxPorPeso));
+			        AdaptadorDeGrafoCliqueMax frame = new AdaptadorDeGrafoCliqueMax(cliqueMaxCantVertices, devolverPesosVertices(cliqueMaxCantVertices));
+			        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			        frame.setSize(400, 400);
+			        frame.setBounds(400, 150, 400, 400);
+			        frame.setVisible(true);
+			        frame.setResizable(false);
+			        labelTiempoEjecucion.setText("Tiempo de ejecucion: " + tiempoFormateado + " ms");							// FALTA AGREGAR CANT DE NODOS EVALUADOS
+			        labelTiempoEjecucion.setVisible(true);
+				} catch (RuntimeException e1) {
+					cartelError2.setText(e1.getMessage());
+					cartelError2.setVisible(true);
+				}
+				
 			}
+
 		});
 		botonGenerar.setBackground(new Color(192, 192, 192));
 		botonGenerar.setBorderPainted(false);
@@ -209,11 +230,19 @@ public class InterfazPrincipal {
 		botonMostrarG = new JButton("Mostrar grafo original");
 		botonMostrarG.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AdaptadorDeGrafo frame = new AdaptadorDeGrafo(grafo, grafo.devolverPesosVertices());
-		        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		        frame.setSize(400, 400);
-		        frame.setVisible(true);
-		        frame.setResizable(false);
+				try {
+					verificarGrafoCargado();
+					AdaptadorDeGrafo frame = new AdaptadorDeGrafo(grafo, grafo.devolverPesosVertices());
+			        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			        frame.setSize(400, 400);
+			        frame.setBounds(400, 150, 400, 400);
+			        frame.setVisible(true);
+			        frame.setResizable(false);
+				}
+				catch (RuntimeException e1) {
+					cartelError2.setText(e1.getMessage());
+					cartelError2.setVisible(true);
+				}
 		        
 			}
 		});
@@ -242,6 +271,7 @@ public class InterfazPrincipal {
 				if (checkManual.isSelected()) {
 					grafo = new Grafo();
 					botonAgregar.setEnabled(true);
+					cartelError2.setVisible(false);
 				}
 				else {
 					botonAgregar.setEnabled(false);
@@ -254,6 +284,7 @@ public class InterfazPrincipal {
 			public void actionPerformed(ActionEvent e) {
 				if (checkAutomatico.isSelected()) {
 					try {
+						cartelError2.setVisible(false);
 						lector.leerArchivoVertices(grafo);
 						grafo.inicializarMatrizAdy();
 						lector.leerArchivoAristas(grafo);
@@ -301,6 +332,12 @@ public class InterfazPrincipal {
     private double medirTiempo(long startTime) {
 		long endTime = System.nanoTime();
 		long duration = (endTime - startTime);
-        return (double) duration / 1_000_000_000.0;
+        return (double) duration / 1_000_000.0;
+	}
+    
+    private void verificarGrafoCargado() {
+		if (grafo.getVertices().size() == 0) {
+			throw new RuntimeException("Grafo no cargado!");
+		}
 	}
 }

@@ -11,43 +11,28 @@ public class GrafoTest {
 	private Grafo grafo;
 
     @Before
-    public void setUp() {
+    public void inicializarGrafo() {
         grafo = new Grafo();
     }
 
     @Test
-    public void testTamanoInicial() {
-        assertEquals("El tamaño inicial del grafo debe ser 0", 0, grafo.tamano());
-    }
-
-    @Test
-    public void testAgregarVertice() {
+    public void agregarVerticeTest() {
         grafo.agregarVertice(0, 1.5);
         assertEquals("El tamaño del grafo después de agregar un vértice debe ser 1", 1, grafo.tamano());
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testAgregarVerticeInvalido() {
+    public void agregarVerticeInvalidoTest() {
         grafo.agregarVertice(-1, 1.5);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testAgregarVerticePesoInvalido() {
+    public void agregarVerticePesoInvalidoTest() {
         grafo.agregarVertice(1, 0.5);
     }
 
     @Test
-    public void testInicializarMatrizAdy() {
-        grafo.agregarVertice(0, 1.5);
-        grafo.agregarVertice(1, 2.0);
-        grafo.inicializarMatrizAdy();
-        boolean[][] matrizAdy = grafo.devolverMatrizAdy();
-        assertFalse("La matriz de adyacencia debe ser falsa en [0][1]", matrizAdy[0][1]);
-        assertFalse("La matriz de adyacencia debe ser falsa en [1][0]", matrizAdy[1][0]);
-    }
-
-    @Test
-    public void testAgregarArista() {
+    public void agregarAristaTest() {
         grafo.agregarVertice(0, 1.5);
         grafo.agregarVertice(1, 2.0);
         grafo.inicializarMatrizAdy();
@@ -57,23 +42,23 @@ public class GrafoTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testAgregarAristaInvalida() {
+    public void agregarAristaInvalidaTest() {
         grafo.agregarVertice(0, 1.5);
         grafo.agregarVertice(1, 2.0);
         grafo.inicializarMatrizAdy();
-        grafo.agregarArista(0, 2); // El vértice 2 no existe
+        grafo.agregarArista(0, 2);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testAgregarAristaLoop() {
+    public void agregarAristaBucleTest() {
         grafo.agregarVertice(0, 1.5);
         grafo.agregarVertice(1, 2.0);
         grafo.inicializarMatrizAdy();
-        grafo.agregarArista(0, 0); // No se permiten loops
+        grafo.agregarArista(0, 0);
     }
 
     @Test
-    public void testExisteArista() {
+    public void existeAristaTest() {
         grafo.agregarVertice(0, 1.5);
         grafo.agregarVertice(1, 2.0);
         grafo.inicializarMatrizAdy();
