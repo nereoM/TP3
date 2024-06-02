@@ -5,7 +5,7 @@ import java.util.List;
 
 public class EncontrarCliqueMayorCantVertices {
 
-	List<Vertice> encontrarCliqueMayorCantVertices(Grafo grafo) {
+	public List<Vertice> encontrarCliqueMayorCantVertices(Grafo grafo) {
 	    List<Vertice> clique = new ArrayList<>();
 	    List<Vertice> cliqueActual = new ArrayList<>();
 	    boolean[] visitados = new boolean[grafo.tamano()];
