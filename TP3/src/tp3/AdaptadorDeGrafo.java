@@ -59,13 +59,22 @@ public class AdaptadorDeGrafo extends JFrame {
             }
         }
         */
-        
+        /*
         for (int i = 0; i < grafo.tamano(); i++) {
             for (int j = i + 1; j < grafo.devolverMatrizAdy()[i].length; j++) {
                 if (grafo.devolverMatrizAdy()[i][j]) {
                     graph.addEdge(grafo.getVertices().get(i).getId()+"", grafo.getVertices().get(j).getId()+"");
                 }
             }
+        }
+        */
+        
+        for (Vertice v1:grafo.getVertices()) {
+        	for (Vertice v2:grafo.getVertices()) {
+        		if (grafo.getVecinos(v1.getId()).contains(v2)) {
+        			graph.addEdge(v1.getId()+"", v2.getId()+"");
+        		}
+        	}
         }
 
         return graph;

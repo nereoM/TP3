@@ -33,11 +33,12 @@ public class EncontrarCliqueMayorCantVertices {
 	}
 	
 	private boolean perteneceAClique(List<Vertice> clique, int vertex, Grafo grafo) {
-        for (Vertice v : clique) {
-            if (!grafo.devolverMatrizAdy()[v.getId()][vertex]) {
-                return false;
-            }
-        }
+		ArrayList<Vertice> vecinos = grafo.getVecinos(vertex);
+		for (Vertice v:clique) {
+			if (!vecinos.contains(v)) {
+				return false;
+			}
+		}
         return true;
     }
 }

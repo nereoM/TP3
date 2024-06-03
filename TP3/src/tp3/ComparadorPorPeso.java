@@ -2,7 +2,7 @@ package tp3;
 
 import java.util.Comparator;
 
-public class ComparadorPorBeneficio implements Comparator<Vertice> {
+public class ComparadorPorPeso implements Comparator<Vertice> {
 
 	
 	@Override

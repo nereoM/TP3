@@ -14,7 +14,7 @@ public class EncontrarCliqueMayorPesoPorPeso {
 	
 	 public static List<Vertice> encontrarCliqueDeMayorPeso(Grafo grafo) {
 	        List<Vertice> verticesOrdenados = new ArrayList<Vertice>(grafo.getVertices());
-	        Comparator<Vertice> comparador = new ComparadorPorBeneficio();
+	        Comparator<Vertice> comparador = new ComparadorPorPeso();
 	        Collections.sort(verticesOrdenados, comparador);
 
 	        List<Vertice> clique = new ArrayList<Vertice>();
@@ -27,15 +27,20 @@ public class EncontrarCliqueMayorPesoPorPeso {
 	        return clique;
 	    }
 
-	    private static boolean esCompatible(Vertice vertice, List<Vertice> clique, Grafo grafo) {
+	 private static boolean esCompatible(Vertice vertice, List<Vertice> clique, Grafo grafo) {
 	        if (clique.isEmpty()) {
 	            return true;
 	        }
 
 	        for (Vertice verticeEnClique:clique) {
+	        	/*
 	            if (!sonCompatibles(vertice, verticeEnClique, grafo)) {
 	                return false;
 	            }
+	            */
+	        	if (!grafo.getVecinos(verticeEnClique.getId()).contains(vertice)) {
+	        		return false;
+	        	}
 	        }
 
 	        return true;

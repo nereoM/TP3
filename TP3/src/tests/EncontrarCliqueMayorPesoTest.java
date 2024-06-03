@@ -40,7 +40,7 @@ public class EncontrarCliqueMayorPesoTest {
 
         // Encontrar clique de mayor peso
         EncontrarCliqueMayorPesoPorPeso clique = new EncontrarCliqueMayorPesoPorPeso();
-        List<Vertice> cliqueMax = clique.encontrarCliqueDeMayorPeso(grafo);
+        List<Vertice> cliqueMax = EncontrarCliqueMayorPesoPorPeso.encontrarCliqueDeMayorPeso(grafo);
 
         // Verificar el resultado
         assertNotNull(cliqueMax);
@@ -56,7 +56,7 @@ public class EncontrarCliqueMayorPesoTest {
 
     	grafo.inicializarMatrizAdy();
     	EncontrarCliqueMayorPesoPorPeso clique = new EncontrarCliqueMayorPesoPorPeso();
-        List<Vertice> cliqueMax = clique.encontrarCliqueDeMayorPeso(grafo);
+        List<Vertice> cliqueMax = EncontrarCliqueMayorPesoPorPeso.encontrarCliqueDeMayorPeso(grafo);
 
         // Encontrar clique de mayor peso
 
@@ -75,7 +75,7 @@ public class EncontrarCliqueMayorPesoTest {
 
         // Encontrar clique de mayor peso
         EncontrarCliqueMayorPesoPorPeso clique = new EncontrarCliqueMayorPesoPorPeso();
-        List<Vertice> cliqueMax = clique.encontrarCliqueDeMayorPeso(grafo);
+        List<Vertice> cliqueMax = EncontrarCliqueMayorPesoPorPeso.encontrarCliqueDeMayorPeso(grafo);
 
         // Verificar el resultado
         assertNotNull(cliqueMax);

@@ -1,5 +1,7 @@
 package tp3;
 
+import java.util.ArrayList;
+
 public class Vertice {
 
 	private int id;
