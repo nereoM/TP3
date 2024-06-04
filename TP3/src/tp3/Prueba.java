@@ -16,7 +16,6 @@ public class Prueba {
 		grafo.agregarVertice(4, 2.5);
 		grafo.agregarVertice(5, 3.5);
 		
-		grafo.inicializarMatrizAdy();
 		
 		grafo.agregarArista(0, 1);
 		grafo.agregarArista(3, 4);

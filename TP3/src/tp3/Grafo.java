@@ -10,11 +10,9 @@ public class Grafo {
 
 	private boolean[][] A;
 	private ArrayList<Vertice> vertices;
-	private ArrayList<ArrayList<Vertice>> adyacencia;
 
 	public Grafo() {
 		vertices = new ArrayList<Vertice>();
-		adyacencia = new ArrayList<>();
 	}
 	
 	public int tamano()
@@ -22,14 +20,6 @@ public class Grafo {
 		return vertices.size();
 	}
 	
-	public void inicializarMatrizAdy() {
-		this.A = new boolean[tamano()][tamano()];
-		for (int i = 0; i < tamano(); i++) {
-		    for (int j = 0; j < tamano(); j++) {
-		    	this.A[i][j] = false;
-		    }
-		}
-	}
 	
 	/*
 	public void agregarVertice(int v, double peso) {
@@ -41,12 +31,22 @@ public class Grafo {
 		}
 	}
 	*/
+	/*
+	public void agregarVertice(int v, double peso) {
+        if (v >= 0 && peso >= 1 && !existeV(v)) {
+            Vertice nuevoVertice = new Vertice(v, peso);
+            vertices.add(nuevoVertice);
+            adyacencia.add(new ArrayList<>());
+        } else {
+            throw new IllegalArgumentException("Argumento/s invalido/s!");
+        }
+    }
+    */
 	
 	public void agregarVertice(int v, double peso) {
         if (v >= 0 && peso >= 1 && !existeV(v)) {
             Vertice nuevoVertice = new Vertice(v, peso);
             vertices.add(nuevoVertice);
-            adyacencia.add(new ArrayList<>());  // Añade una nueva lista de adyacencia para el nuevo vértice
         } else {
             throw new IllegalArgumentException("Argumento/s invalido/s!");
         }
@@ -68,23 +68,23 @@ public class Grafo {
 	
 	/*
 	public void agregarArista(int v1, int v2) {
-		verificarVertice(v1);
-		verificarVertice(v2);
-		verificarDistintos(v1, v2);
-		if (existeV(v1) && existeV(v2)) {
-			A[v1][v2] = true;
-			A[v2][v1] = true;
-		}
-	}
-	*/
+        verificarVertice(v1);
+        verificarVertice(v2);
+        verificarDistintos(v1, v2);
+        if (existeV(v1) && existeV(v2)) {
+            adyacencia.get(v1).add(vertices.get(v2));
+            adyacencia.get(v2).add(vertices.get(v1));
+        }
+    }
+    */
 	
 	public void agregarArista(int v1, int v2) {
         verificarVertice(v1);
         verificarVertice(v2);
         verificarDistintos(v1, v2);
         if (existeV(v1) && existeV(v2)) {
-            adyacencia.get(v1).add(vertices.get(v2));
-            adyacencia.get(v2).add(vertices.get(v1));  // Si el grafo es no dirigido
+            vertices.get(v1).agregarVecino(vertices.get(v2));
+            vertices.get(v2).agregarVecino(vertices.get(v1));
         }
     }
 	
@@ -144,16 +144,15 @@ public class Grafo {
 	}
 	*/
 	
-	public ArrayList<Vertice> getVecinos(int v) {
-		return adyacencia.get(v);
+//	public ArrayList<Vertice> getVecinos(int v) {
+//		return adyacencia.get(v);
+//	}
+	
+	public void reiniciar() {
+		vertices.clear();
 	}
 	
-	public void randomizarPeso() {
-		int min = 0;
-        int max = tamano();
-        int vertice = ThreadLocalRandom.current().nextInt(min, max);
-        int peso = ThreadLocalRandom.current().nextInt(1, 11);
-        vertices.get(vertice).agregarPesoVertice(peso);
-        System.out.println(vertice + ", " + peso);
+	public ArrayList<Vertice> getVecinos(int v) {
+		return vertices.get(v).getVecinos();
 	}
 }

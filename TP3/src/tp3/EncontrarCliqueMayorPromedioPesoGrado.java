@@ -24,7 +24,8 @@ public class EncontrarCliqueMayorPromedioPesoGrado {
         for (Vertice v : ordenadosPorPesoGrado) {
             Vertice verticeOriginal = grafo.getVertice(v.getId());
             if (esCompatible(verticeOriginal, clique, grafo)) {
-                clique.add(verticeOriginal);
+            	v.setVecinos(verticeOriginal.getVecinos());
+                clique.add(v);
             }
         }
 

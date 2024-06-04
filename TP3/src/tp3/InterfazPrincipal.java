@@ -31,11 +31,10 @@ public class InterfazPrincipal {
 	private JFrame frame;
 	private JTextField textVertice, textPeso, textArista1, textArista2;
 	private JLabel labelVertice, labelPeso, labelArista, labelCargar, cartelError, cartelError2;
-	private JButton botonAgregar, botonArista, botonGenerar, botonGenerarCantVertices, botonVerticesCargados, botonMostrarG, botonCliquePesoVecinos;
-	private JCheckBox checkManual, checkAutomatico, checkGrafoCompleto;
+	private JButton botonAgregar, botonArista, botonGenerar, botonGenerarCantVertices, botonMostrarG, botonCliquePesoVecinos, botonReiniciar;
+	private JCheckBox checkManual, checkAutomatico;
 	private Grafo grafo;
 	private EncontrarCliqueMayorPesoPorPeso clique;
-	private EncontrarCliqueMayorPesoTotal clique2;
 	private EncontrarCliqueMayorCantVertices clique3;
 	private EncontrarCliqueMayorPromedioPesoGrado clique4;
 	private LectorTxt lector;
@@ -133,11 +132,6 @@ public class InterfazPrincipal {
 		labelCargar.setBounds(12, 11, 46, 14);
 		frame.getContentPane().add(labelCargar);
 		
-		checkGrafoCompleto = new JCheckBox("Vertices cargados");
-		checkGrafoCompleto.setFont(new Font("Arial", Font.BOLD, 9));
-		checkGrafoCompleto.setBounds(6, 173, 111, 23);
-		frame.getContentPane().add(checkGrafoCompleto);
-		
 		cartelError = new JLabel("");
 		cartelError.setVisible(false);
 		cartelError.setFont(new Font("Arial", Font.BOLD, 9));
@@ -163,8 +157,14 @@ public class InterfazPrincipal {
 		botonAgregar.setEnabled(false);
 		botonAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cartelError.setVisible(false);
-				agregarVerticeConPeso();
+				try {
+					cartelError.setVisible(false);
+					agregarVerticeConPeso();
+				}
+				catch (Exception e1) {
+					//cartelError.setText(e1.getMessage());
+				}
+				
 			}
 		});
 		botonAgregar.setBackground(new Color(192, 192, 192));
@@ -194,11 +194,8 @@ public class InterfazPrincipal {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					verificarGrafoCargado();
-					//clique2 = new EncontrarCliqueMayorPesoTotal();
 					clique = new EncontrarCliqueMayorPesoPorPeso();
 					long startTime = System.nanoTime();
-					//List<Vertice> cliqueMaxCantVertices = clique2.encontrarCliqueMayorPeso(grafo);
-					//List<Vertice> cliqueMaxPorPeso = clique.encontrarCliqueDeMayorPeso(grafo);
 					List<Vertice> cliqueMaxCantVertices = clique.encontrarCliqueDeMayorPeso(grafo);
 					double tiempo = medirTiempo(startTime);
 			        String tiempoFormateado = decimalFormat.format(tiempo);
@@ -270,19 +267,6 @@ public class InterfazPrincipal {
 		botonMostrarG.setBounds(10, 414, 139, 23);
 		frame.getContentPane().add(botonMostrarG);
 		
-		botonVerticesCargados = new JButton("Grafo cargado");
-		botonVerticesCargados.setHorizontalAlignment(SwingConstants.LEFT);
-		botonVerticesCargados.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				grafo.inicializarMatrizAdy();
-			}
-		});
-		botonVerticesCargados.setBorderPainted(false);
-		botonVerticesCargados.setBackground(new Color(192, 192, 192));
-		botonVerticesCargados.setFont(new Font("Arial", Font.BOLD, 10));
-		botonVerticesCargados.setBounds(134, 172, 103, 23);
-		frame.getContentPane().add(botonVerticesCargados);
-		
 		checkManual = new JCheckBox("Manual");
 		checkManual.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -304,7 +288,6 @@ public class InterfazPrincipal {
 					try {
 						cartelError2.setVisible(false);
 						lector.leerArchivoVertices(grafo);
-						grafo.inicializarMatrizAdy();
 						lector.leerArchivoAristas(grafo);
 						botonAgregar.setEnabled(false);
 					} catch (IllegalArgumentException e1) {
@@ -353,6 +336,18 @@ public class InterfazPrincipal {
 		botonCliquePesoVecinos.setBackground(new Color(192, 192, 192));
 		botonCliquePesoVecinos.setBounds(321, 414, 89, 23);
 		frame.getContentPane().add(botonCliquePesoVecinos);
+		
+		botonReiniciar = new JButton("Reiniciar");
+		botonReiniciar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				grafo.reiniciar();
+			}
+		});
+		botonReiniciar.setFont(new Font("Arial", Font.BOLD, 10));
+		botonReiniciar.setBorderPainted(false);
+		botonReiniciar.setBackground(new Color(192, 192, 192));
+		botonReiniciar.setBounds(457, 138, 89, 23);
+		frame.getContentPane().add(botonReiniciar);
 	}
 	
 	private void agregarVerticeConPeso() {
