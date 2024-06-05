@@ -88,7 +88,7 @@ public class CliqueMayorCantVerticesTest {
 		grafo.agregarVertice(7, 10);
 		grafo.agregarVertice(8, 10);
 		grafo.agregarVertice(9, 10);
-		grafo.inicializarMatrizAdy();
+//		grafo.inicializarMatrizAdy();
 		
 		grafo.agregarArista(0, 1);
 		grafo.agregarArista(0, 2);
@@ -144,7 +144,7 @@ public class CliqueMayorCantVerticesTest {
 		grafo.agregarVertice(7, 10);
 		grafo.agregarVertice(8, 10);
 		grafo.agregarVertice(9, 10);
-		grafo.inicializarMatrizAdy();
+//		grafo.inicializarMatrizAdy();
 		
 		grafo.agregarArista(0, 1);
 		grafo.agregarArista(0, 2);

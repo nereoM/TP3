@@ -22,12 +22,12 @@ public class Vertice {
 		return this.peso;
 	}
 	
-	public void agregarVertice(int v) {
+	private void agregarVertice(int v) {
 		verificarVertice(v);
 		this.id = v;
 	}
 	
-	public void agregarPesoVertice(double d) {
+	private void agregarPesoVertice(double d) {
 		verificarVertice(id);
 		if (d <= 0) {
 			throw new IllegalArgumentException();
@@ -53,5 +53,9 @@ public class Vertice {
 	{
 		if( i < 0 )
 			throw new IllegalArgumentException("El vertice no puede ser negativo: " + i);
+	}
+	
+	public int cantVecinos() {
+		return vecinos.size();
 	}
 }

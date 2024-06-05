@@ -29,7 +29,7 @@ public class EncontrarCliqueMayorPesoTest {
         grafo.agregarVertice(3, 2.5);
 
         // Inicializar matriz de adyacencia
-        grafo.inicializarMatrizAdy();
+//        grafo.inicializarMatrizAdy();
 
         // Crear aristas
         grafo.agregarArista(0, 1);
@@ -54,7 +54,7 @@ public class EncontrarCliqueMayorPesoTest {
     public void testCliqueVacia() {
         // No agregar vértices ni aristas al grafo
 
-    	grafo.inicializarMatrizAdy();
+//    	grafo.inicializarMatrizAdy();
     	EncontrarCliqueMayorPesoPorPeso clique = new EncontrarCliqueMayorPesoPorPeso();
         List<Vertice> cliqueMax = EncontrarCliqueMayorPesoPorPeso.encontrarCliqueDeMayorPeso(grafo);
 
@@ -71,7 +71,7 @@ public class EncontrarCliqueMayorPesoTest {
         grafo.agregarVertice(0, 2.0);
 
         // Inicializar matriz de adyacencia
-        grafo.inicializarMatrizAdy();
+//        grafo.inicializarMatrizAdy();
 
         // Encontrar clique de mayor peso
         EncontrarCliqueMayorPesoPorPeso clique = new EncontrarCliqueMayorPesoPorPeso();

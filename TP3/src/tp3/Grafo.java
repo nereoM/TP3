@@ -52,7 +52,7 @@ public class Grafo {
         }
     }
 
-	private boolean existeV(int ver) {
+	public boolean existeV(int ver) {
 		for (Vertice v:vertices) {
 			if (v.getId() == ver) {
 				return true;
@@ -107,7 +107,14 @@ public class Grafo {
 	{
 		verificarVertice(i);
 		verificarVertice(j);
-		return A[i][j];
+		verificarDistintos(i, j);
+//		return A[i][j];
+		if (existeV(i) && existeV(j)) {
+			Vertice vi = this.vertices.get(i);
+			Vertice vj = this.vertices.get(j);
+			return this.vertices.get(i).getVecinos().contains(vj) && this.vertices.get(j).getVecinos().contains(vi);
+		}
+		return false;
 	}
 
 	public double getPesoVertice(int v) {
