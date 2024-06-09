@@ -25,11 +25,13 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextPane;
 
 public class InterfazPrincipal {
 
 	private JFrame frame;
 	private JTextField textVertice, textPeso, textArista1, textArista2;
+	private JTextPane labelOrdenadoPorPeso, labelOrdenadoPorPesoVecinos, labelOrdenadoPorCantVertices;
 	private JLabel labelVertice, labelPeso, labelArista, labelCargar, cartelError, cartelError2;
 	private JButton botonAgregar, botonArista, botonGenerar, botonGenerarCantVertices, botonMostrarG, botonCliquePesoVecinos, botonReiniciar;
 	private JCheckBox checkManual, checkAutomatico;
@@ -40,6 +42,7 @@ public class InterfazPrincipal {
 	private LectorTxt lector;
 	private JLabel labelTiempoEjecucion;
 	private DecimalFormat decimalFormat;
+	private JLabel labelNodosEvaluados;
 
 	/**
 	 * Launch the application.
@@ -79,6 +82,7 @@ public class InterfazPrincipal {
 		frame.setBounds(200, 150, 572, 487);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		frame.setResizable(false);
 		
 		definirObjetosPantalla();
 		
@@ -149,6 +153,37 @@ public class InterfazPrincipal {
 		labelTiempoEjecucion.setFont(new Font("Arial", Font.BOLD, 9));
 		labelTiempoEjecucion.setBounds(6, 300, 186, 14);
 		frame.getContentPane().add(labelTiempoEjecucion);
+		
+
+		labelOrdenadoPorPeso = new JTextPane();
+		labelOrdenadoPorPeso.setBackground(new Color(240, 240, 240));
+		labelOrdenadoPorPeso.setFont(new Font("Arial", Font.BOLD, 9));
+		labelOrdenadoPorPeso.setText("Clique max\n"
+						+ "ordenada por\n"
+						+ "peso");
+		labelOrdenadoPorPeso.setBounds(180, 364, 89, 44);
+		labelOrdenadoPorPeso.setEditable(false);
+		frame.getContentPane().add(labelOrdenadoPorPeso);
+		
+		labelOrdenadoPorPesoVecinos = new JTextPane();
+		labelOrdenadoPorPesoVecinos.setBackground(new Color(240, 240, 240));
+		labelOrdenadoPorPesoVecinos.setFont(new Font("Arial", Font.BOLD, 9));
+		labelOrdenadoPorPesoVecinos.setBounds(321, 364, 89, 44);
+		labelOrdenadoPorPesoVecinos.setText("Clique max\n"
+				+ "ordenada por\n"
+				+ "peso/vecinos");
+		labelOrdenadoPorPesoVecinos.setEditable(false);
+		frame.getContentPane().add(labelOrdenadoPorPesoVecinos);
+		
+		labelOrdenadoPorCantVertices = new JTextPane();
+		labelOrdenadoPorCantVertices.setBackground(new Color(240, 240, 240));
+		labelOrdenadoPorCantVertices.setFont(new Font("Arial", Font.BOLD, 9));
+		labelOrdenadoPorCantVertices.setBounds(457, 364, 89, 44);
+		labelOrdenadoPorCantVertices.setText("Clique max\n"
+				+ "ordenada por\n"
+				+ "cant vertices");
+		labelOrdenadoPorCantVertices.setEditable(false);
+		frame.getContentPane().add(labelOrdenadoPorCantVertices);
 
 	}
 	
@@ -199,9 +234,7 @@ public class InterfazPrincipal {
 					List<Vertice> cliqueMaxCantVertices = clique.encontrarCliqueDeMayorPeso(grafo);
 					double tiempo = medirTiempo(startTime);
 			        String tiempoFormateado = decimalFormat.format(tiempo);
-			        generarVentana(cliqueMaxCantVertices);
-			        labelTiempoEjecucion.setText("Tiempo de ejecucion: " + tiempoFormateado + " ms");							// FALTA AGREGAR CANT DE NODOS EVALUADOS
-			        labelTiempoEjecucion.setVisible(true);
+			        generarVentana(cliqueMaxCantVertices, tiempoFormateado);
 				} catch (RuntimeException e1) {
 					cartelError2.setText(e1.getMessage());
 					cartelError2.setVisible(true);
@@ -221,9 +254,7 @@ public class InterfazPrincipal {
 					List<Vertice> cliqueMaxPorPeso = clique3.encontrarCliqueMayorCantVertices(grafo);
 					double tiempo = medirTiempo(startTime);
 			        String tiempoFormateado = decimalFormat.format(tiempo);
-			        generarVentana(cliqueMaxPorPeso);
-			        labelTiempoEjecucion.setText("Tiempo de ejecucion: " + tiempoFormateado + " ms");							// FALTA AGREGAR CANT DE NODOS EVALUADOS
-			        labelTiempoEjecucion.setVisible(true);
+			        generarVentana(cliqueMaxPorPeso, tiempoFormateado);
 				} catch (RuntimeException e1) {
 					cartelError2.setText(e1.getMessage());
 					cartelError2.setVisible(true);
@@ -320,9 +351,7 @@ public class InterfazPrincipal {
 					List<Vertice> cliqueMaxPorPeso = clique4.encontrarCliqueMayorPesoGrado(grafo);
 					double tiempo = medirTiempo(startTime);
 			        String tiempoFormateado = decimalFormat.format(tiempo);
-			        generarVentana(cliqueMaxPorPeso);
-			        labelTiempoEjecucion.setText("Tiempo de ejecucion: " + tiempoFormateado + " ms");							// FALTA AGREGAR CANT DE NODOS EVALUADOS
-			        labelTiempoEjecucion.setVisible(true);
+			        generarVentana(cliqueMaxPorPeso, tiempoFormateado);
 				} catch (RuntimeException e1) {
 					cartelError2.setText(e1.getMessage());
 					cartelError2.setVisible(true);
@@ -348,6 +377,11 @@ public class InterfazPrincipal {
 		botonReiniciar.setBackground(new Color(192, 192, 192));
 		botonReiniciar.setBounds(457, 138, 89, 23);
 		frame.getContentPane().add(botonReiniciar);
+		
+		labelNodosEvaluados = new JLabel("");
+		labelNodosEvaluados.setFont(new Font("Arial", Font.BOLD, 9));
+		labelNodosEvaluados.setBounds(6, 318, 143, 14);
+		frame.getContentPane().add(labelNodosEvaluados);
 	}
 	
 	private void agregarVerticeConPeso() {
@@ -381,12 +415,16 @@ public class InterfazPrincipal {
 		}
 	}
     
-    private void generarVentana(List<Vertice> cliqueMax) {
+    private void generarVentana(List<Vertice> cliqueMax, String tiempoFormateado) {
     	AdaptadorDeGrafoCliqueMax frameClique = new AdaptadorDeGrafoCliqueMax(cliqueMax, devolverPesosVertices(cliqueMax));
         frameClique.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frameClique.setSize(400, 400);
         frameClique.setBounds(frame.getX()+200, frame.getY(), 400, 400);
         frameClique.setVisible(true);
         frameClique.setResizable(false);
+        labelTiempoEjecucion.setText("Tiempo de ejecucion: " + tiempoFormateado + " ms");
+        labelTiempoEjecucion.setVisible(true);
+        labelNodosEvaluados.setText("Nodos evaluados: " + grafo.tamano());
+        labelNodosEvaluados.setVisible(true);
     }
 }

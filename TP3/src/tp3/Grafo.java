@@ -2,9 +2,7 @@ package tp3;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class Grafo {
 
@@ -19,29 +17,6 @@ public class Grafo {
 	{
 		return vertices.size();
 	}
-	
-	
-	/*
-	public void agregarVertice(int v, double peso) {
-		if (v >= 0 && peso >= 1 && !existeV(v)) {
-			vertices.add(new Vertice(v, peso));
-		}
-		else {
-			throw new IllegalArgumentException("Argumento/s invalido/s!");
-		}
-	}
-	*/
-	/*
-	public void agregarVertice(int v, double peso) {
-        if (v >= 0 && peso >= 1 && !existeV(v)) {
-            Vertice nuevoVertice = new Vertice(v, peso);
-            vertices.add(nuevoVertice);
-            adyacencia.add(new ArrayList<>());
-        } else {
-            throw new IllegalArgumentException("Argumento/s invalido/s!");
-        }
-    }
-    */
 	
 	public void agregarVertice(int v, double peso) {
         if (v >= 0 && peso >= 1 && !existeV(v)) {
@@ -65,18 +40,6 @@ public class Grafo {
         boolean[][] ady = A;
         return ady;
     }
-	
-	/*
-	public void agregarArista(int v1, int v2) {
-        verificarVertice(v1);
-        verificarVertice(v2);
-        verificarDistintos(v1, v2);
-        if (existeV(v1) && existeV(v2)) {
-            adyacencia.get(v1).add(vertices.get(v2));
-            adyacencia.get(v2).add(vertices.get(v1));
-        }
-    }
-    */
 	
 	public void agregarArista(int v1, int v2) {
         verificarVertice(v1);
@@ -108,11 +71,10 @@ public class Grafo {
 		verificarVertice(i);
 		verificarVertice(j);
 		verificarDistintos(i, j);
-//		return A[i][j];
 		if (existeV(i) && existeV(j)) {
-			Vertice vi = this.vertices.get(i);
-			Vertice vj = this.vertices.get(j);
-			return this.vertices.get(i).getVecinos().contains(vj) && this.vertices.get(j).getVecinos().contains(vi);
+			Vertice vi = vertices.get(i);
+			Vertice vj = vertices.get(j);
+			return vertices.get(i).getVecinos().contains(vj) && vertices.get(j).getVecinos().contains(vi);
 		}
 		return false;
 	}
@@ -129,7 +91,6 @@ public class Grafo {
 		return pesos;
 	}
 	
-	
 	public ArrayList<Vertice> getVertices() {
 		ArrayList<Vertice> v = vertices;
 		return v;
@@ -138,22 +99,6 @@ public class Grafo {
 	public Vertice getVertice(int v) {
 		return vertices.get(v);
 	}
-
-	/*
-	public ArrayList<Vertice> getVecinos(int v) {
-		ArrayList<Vertice> vecinos = new ArrayList<Vertice>();
-		for (int i = 0; i < tamano(); i++) {
-			if (A[v][i]) {
-				vecinos.add(vertices.get(i));
-			}
-		}
-		return vecinos;
-	}
-	*/
-	
-//	public ArrayList<Vertice> getVecinos(int v) {
-//		return adyacencia.get(v);
-//	}
 	
 	public void reiniciar() {
 		vertices.clear();

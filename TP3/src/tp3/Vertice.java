@@ -42,7 +42,8 @@ public class Vertice {
 	}
 	
 	public ArrayList<Vertice> getVecinos() {
-		return vecinos;
+		ArrayList<Vertice> listaVecinos = vecinos;
+		return listaVecinos;
 	}
 	
 	public void setVecinos(ArrayList<Vertice> v) {

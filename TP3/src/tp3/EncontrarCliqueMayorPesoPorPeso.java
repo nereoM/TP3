@@ -33,27 +33,12 @@ public class EncontrarCliqueMayorPesoPorPeso {
 	        }
 
 	        for (Vertice verticeEnClique:clique) {
-	        	/*
-	            if (!sonCompatibles(vertice, verticeEnClique, grafo)) {
-	                return false;
-	            }
-	            */
 	        	if (!grafo.getVecinos(verticeEnClique.getId()).contains(vertice)) {
 	        		return false;
 	        	}
 	        }
 
 	        return true;
-	    }
-
-	    private static boolean sonCompatibles(Vertice vertice1, Vertice vertice2, Grafo grafo) {
-	        for (Vertice vecino : grafo.getVecinos(vertice1.getId())) {
-	            if (vecino == vertice2) {
-	                return true;
-	            }
-	        }
-
-	        return false;
 	    }
 }
 
