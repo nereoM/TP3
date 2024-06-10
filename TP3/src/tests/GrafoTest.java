@@ -35,7 +35,6 @@ public class GrafoTest {
     public void agregarAristaTest() {
         grafo.agregarVertice(0, 1.5);
         grafo.agregarVertice(1, 2.0);
-//        grafo.inicializarMatrizAdy();
         grafo.agregarArista(0, 1);
         assertTrue("Debe existir una arista entre 0 y 1", grafo.existeArista(0, 1));
         assertTrue("Debe existir una arista entre 1 y 0", grafo.existeArista(1, 0));
@@ -45,7 +44,6 @@ public class GrafoTest {
     public void agregarAristaInvalidaTest() {
         grafo.agregarVertice(0, 1.5);
         grafo.agregarVertice(1, 2.0);
-//        grafo.inicializarMatrizAdy();
         grafo.agregarArista(0, 2);
     }
 
@@ -53,7 +51,6 @@ public class GrafoTest {
     public void agregarAristaBucleTest() {
         grafo.agregarVertice(0, 1.5);
         grafo.agregarVertice(1, 2.0);
-//        grafo.inicializarMatrizAdy();
         grafo.agregarArista(0, 0);
     }
 
@@ -61,7 +58,6 @@ public class GrafoTest {
     public void existeAristaTest() {
         grafo.agregarVertice(0, 1.5);
         grafo.agregarVertice(1, 2.0);
-//        grafo.inicializarMatrizAdy();
         grafo.agregarArista(0, 1);
         assertTrue("Debe existir una arista entre 0 y 1", grafo.existeArista(0, 1));
     }
@@ -70,7 +66,6 @@ public class GrafoTest {
     public void existeAristaFalseTest() {
     	grafo.agregarVertice(0, 2.0);
     	grafo.agregarVertice(1, 3.5);
-//    	grafo.inicializarMatrizAdy();
     	assertFalse(grafo.existeArista(0, 1));
     }
     
@@ -78,7 +73,6 @@ public class GrafoTest {
     public void existeAristaConVerticeNoExistenteFalseTest() {
     	grafo.agregarVertice(0, 2.0);
     	grafo.agregarVertice(1, 3.5);
-//    	grafo.inicializarMatrizAdy();
     	grafo.existeArista(0, 2);
     }
 }

@@ -27,7 +27,7 @@ public class Grafo {
         }
     }
 
-	public boolean existeV(int ver) {
+	private boolean existeV(int ver) {
 		for (Vertice v:vertices) {
 			if (v.getId() == ver) {
 				return true;
@@ -35,11 +35,6 @@ public class Grafo {
 		}
 		return false;
 	}
-	
-	public boolean[][] devolverMatrizAdy() {
-        boolean[][] ady = A;
-        return ady;
-    }
 	
 	public void agregarArista(int v1, int v2) {
         verificarVertice(v1);

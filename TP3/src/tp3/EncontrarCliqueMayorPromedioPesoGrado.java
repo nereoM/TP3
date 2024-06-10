@@ -15,7 +15,7 @@ public class EncontrarCliqueMayorPromedioPesoGrado {
         for (Vertice v:vertices) {
             int grado = grafo.getVecinos(v.getId()).size();
             //v.setPesoGrado(v.getPeso() / grado);
-            ordenadosPorPesoGrado.add(new Vertice(v.getId(), v.getPeso()/grado));
+            ordenadosPorPesoGrado.add(new Vertice(v.getId(), v.getPeso()+grado));
         }
 
         Comparator<Vertice> comparador = new ComparadorPorPeso();

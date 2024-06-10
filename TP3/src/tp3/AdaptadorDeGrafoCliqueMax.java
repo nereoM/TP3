@@ -19,19 +19,19 @@ public class AdaptadorDeGrafoCliqueMax extends JFrame {
     private static final long serialVersionUID = 1L;
 
     public AdaptadorDeGrafoCliqueMax(List<Vertice> clique, Map<String, Double> vertexWeights) {
-        Graph<String, DefaultEdge> graph = convertToJGraphT(clique);
+        Graph<String, DefaultEdge> grafo = convertToJGraphT(clique);
 
-        JGraphXAdapter<String, DefaultEdge> graphAdapter = new JGraphXAdapter<>(graph);
+        JGraphXAdapter<String, DefaultEdge> graphAdapter = new JGraphXAdapter<>(grafo);
 
         mxCircleLayout layout = new mxCircleLayout(graphAdapter);
         layout.execute(graphAdapter.getDefaultParent());
         
         for (Map.Entry<String, Double> entry : vertexWeights.entrySet()) {
-            String vertex = entry.getKey();
-            Double weight = entry.getValue();
-            Object cell = graphAdapter.getVertexToCellMap().get(vertex);
+            String vertice = entry.getKey();
+            Double peso = entry.getValue();
+            Object cell = graphAdapter.getVertexToCellMap().get(vertice);
             if (cell != null) {
-                graphAdapter.getModel().setValue(cell, vertex + " (" + weight + ")");
+                graphAdapter.getModel().setValue(cell, vertice + " (" + peso + ")");
             }
         }
 
@@ -42,8 +42,8 @@ public class AdaptadorDeGrafoCliqueMax extends JFrame {
     private Graph<String, DefaultEdge> convertToJGraphT(List<Vertice> clique) {
         Graph<String, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
 
-        for (Vertice vertex : clique) {
-            graph.addVertex(vertex.getId()+"");
+        for (Vertice vertice:clique) {
+            graph.addVertex(vertice.getId()+"");
         }
         
         for (Vertice v:clique) {

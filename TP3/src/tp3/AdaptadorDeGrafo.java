@@ -20,64 +20,40 @@ public class AdaptadorDeGrafo extends JFrame {
     public AdaptadorDeGrafo(Grafo grafo, Map<String, Double> vertexWeights) {
         Graph<String, DefaultEdge> graph = convertToJGraphT(grafo);
 
-        // Adaptar el grafo a JGraphX
-        JGraphXAdapter<String, DefaultEdge> graphAdapter = new JGraphXAdapter<>(graph);
+        JGraphXAdapter<String, DefaultEdge> adaptadorGrafo = new JGraphXAdapter<>(graph);
 
-        // Configurar el layout
-        mxCircleLayout layout = new mxCircleLayout(graphAdapter);
-        layout.execute(graphAdapter.getDefaultParent());
+        mxCircleLayout layout = new mxCircleLayout(adaptadorGrafo);
+        layout.execute(adaptadorGrafo.getDefaultParent());
         
-        // Mostrar los pesos de los vértices
         for (Map.Entry<String, Double> entry : vertexWeights.entrySet()) {
-            String vertex = entry.getKey();
-            Double weight = entry.getValue();
-            Object cell = graphAdapter.getVertexToCellMap().get(vertex);
+            String vertice = entry.getKey();
+            Double peso = entry.getValue();
+            Object cell = adaptadorGrafo.getVertexToCellMap().get(vertice);
             if (cell != null) {
-                graphAdapter.getModel().setValue(cell, vertex + " (" + weight + ")");
+                adaptadorGrafo.getModel().setValue(cell, vertice + " (" + peso + ")");
             }
         }
 
-        // Mostrar el grafo
-        mxGraphComponent graphComponent = new mxGraphComponent(graphAdapter);
+        mxGraphComponent graphComponent = new mxGraphComponent(adaptadorGrafo);
         getContentPane().add(graphComponent);
     }
 
     private Graph<String, DefaultEdge> convertToJGraphT(Grafo grafo) {
-        Graph<String, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
+        Graph<String, DefaultEdge> grafoNuevo = new SimpleGraph<>(DefaultEdge.class);
 
-        // Añadir vértices
-        for (Vertice vertex : grafo.getVertices()) {
-            graph.addVertex(vertex.getId()+"");
+        for (Vertice vertice:grafo.getVertices()) {
+            grafoNuevo.addVertex(vertice.getId()+"");
         }
-
-        // Añadir aristas
-        /*
-        for (Map.Entry<String, List<String>> entry : miGrafo.getEdges().entrySet()) {
-            String source = entry.getKey();
-            for (String target : entry.getValue()) {
-                graph.addEdge(source, target);
-            }
-        }
-        */
-        /*
-        for (int i = 0; i < grafo.tamano(); i++) {
-            for (int j = i + 1; j < grafo.devolverMatrizAdy()[i].length; j++) {
-                if (grafo.devolverMatrizAdy()[i][j]) {
-                    graph.addEdge(grafo.getVertices().get(i).getId()+"", grafo.getVertices().get(j).getId()+"");
-                }
-            }
-        }
-        */
         
         for (Vertice v1:grafo.getVertices()) {
         	for (Vertice v2:grafo.getVertices()) {
         		if (grafo.getVecinos(v1.getId()).contains(v2)) {
-        			graph.addEdge(v1.getId()+"", v2.getId()+"");
+        			grafoNuevo.addEdge(v1.getId()+"", v2.getId()+"");
         		}
         	}
         }
 
-        return graph;
+        return grafoNuevo;
     }
 
 }
