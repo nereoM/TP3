@@ -44,6 +44,9 @@ public class Grafo {
             vertices.get(v1).agregarVecino(vertices.get(v2));
             vertices.get(v2).agregarVecino(vertices.get(v1));
         }
+        else {
+        	throw new IllegalArgumentException("El vertice no existe!");
+        }
     }
 	
 	private void verificarVertice(int i)

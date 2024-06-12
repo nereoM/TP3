@@ -139,7 +139,7 @@ public class InterfazPrincipal {
 		cartelError = new JLabel("");
 		cartelError.setVisible(false);
 		cartelError.setFont(new Font("Arial", Font.BOLD, 9));
-		cartelError.setBounds(124, 143, 113, 14);
+		cartelError.setBounds(124, 143, 212, 14);
 		frame.getContentPane().add(cartelError);
 		
 		cartelError2 = new JLabel("");
@@ -197,7 +197,8 @@ public class InterfazPrincipal {
 					agregarVerticeConPeso();
 				}
 				catch (Exception e1) {
-					//cartelError.setText(e1.getMessage());
+					cartelError.setText(e1.getMessage());
+					cartelError.setVisible(true);
 				}
 				
 			}
@@ -212,7 +213,13 @@ public class InterfazPrincipal {
 		botonArista.setEnabled(true);
 		botonArista.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				grafo.agregarArista(Integer.parseInt(textArista1.getText()), Integer.parseInt(textArista2.getText()));
+				try {
+					grafo.agregarArista(Integer.parseInt(textArista1.getText()), Integer.parseInt(textArista2.getText()));
+				}
+				catch (IllegalArgumentException e1) {
+					cartelError.setText(e1.getMessage());
+					cartelError.setVisible(true);
+				}
 			}
 		});
 
@@ -220,7 +227,7 @@ public class InterfazPrincipal {
 		botonArista.setBackground(new Color(192, 192, 192));
 		botonArista.setHorizontalAlignment(SwingConstants.LEFT);
 		botonArista.setFont(new Font("Arial", Font.BOLD, 10));
-		botonArista.setBounds(307, 138, 103, 23);
+		botonArista.setBounds(346, 138, 103, 23);
 		frame.getContentPane().add(botonArista);
 		
 		botonGenerar = new JButton("Generar");
@@ -386,7 +393,7 @@ public class InterfazPrincipal {
 	
 	private void agregarVerticeConPeso() {
 		try {
-			grafo.agregarVertice(Integer.parseInt(textVertice.getText()), Integer.parseInt(textPeso.getText()));
+			grafo.agregarVertice(Integer.parseInt(textVertice.getText()), Double.parseDouble(textPeso.getText()));
 		}
 		catch (IllegalArgumentException e) {
 			cartelError.setText(e.getMessage());
