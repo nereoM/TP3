@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class EncontrarCliqueMayorPromedioPesoGrado {
+public class EncontrarCliqueMayorSumaPesoGrado {
 
 	public ArrayList<Vertice> encontrarCliqueMayorPesoGrado(Grafo grafo) {
         ArrayList<Vertice> clique = new ArrayList<Vertice>();

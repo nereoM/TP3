@@ -38,7 +38,7 @@ public class InterfazPrincipal {
 	private Grafo grafo;
 	private EncontrarCliqueMayorPesoPorPeso clique;
 	private EncontrarCliqueMayorCantVertices clique3;
-	private EncontrarCliqueMayorPromedioPesoGrado clique4;
+	private EncontrarCliqueMayorSumaPesoGrado clique4;
 	private LectorTxt lector;
 	private JLabel labelTiempoEjecucion;
 	private DecimalFormat decimalFormat;
@@ -353,7 +353,7 @@ public class InterfazPrincipal {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					verificarGrafoCargado();
-					clique4 = new EncontrarCliqueMayorPromedioPesoGrado();
+					clique4 = new EncontrarCliqueMayorSumaPesoGrado();
 					long startTime = System.nanoTime();
 					List<Vertice> cliqueMaxPorPeso = clique4.encontrarCliqueMayorPesoGrado(grafo);
 					double tiempo = medirTiempo(startTime);

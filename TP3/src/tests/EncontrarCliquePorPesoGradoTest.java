@@ -10,7 +10,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import tp3.EncontrarCliqueMayorPromedioPesoGrado;
+import tp3.EncontrarCliqueMayorSumaPesoGrado;
 import tp3.Grafo;
 import tp3.Vertice;
 
@@ -37,7 +37,7 @@ public class EncontrarCliquePorPesoGradoTest {
         grafo.agregarArista(3, 0);
         grafo.agregarArista(0, 2);
 
-        EncontrarCliqueMayorPromedioPesoGrado clique = new EncontrarCliqueMayorPromedioPesoGrado();
+        EncontrarCliqueMayorSumaPesoGrado clique = new EncontrarCliqueMayorSumaPesoGrado();
         ArrayList<Vertice> cliqueMax = clique.encontrarCliqueMayorPesoGrado(grafo);
 
         assertEquals(3, cliqueMax.size());
@@ -48,7 +48,7 @@ public class EncontrarCliquePorPesoGradoTest {
 	
 	@Test
     public void cliqueVaciaTest() {
-        EncontrarCliqueMayorPromedioPesoGrado clique = new EncontrarCliqueMayorPromedioPesoGrado();
+        EncontrarCliqueMayorSumaPesoGrado clique = new EncontrarCliqueMayorSumaPesoGrado();
         ArrayList<Vertice> cliqueMax = clique.encontrarCliqueMayorPesoGrado(grafo);
 
         assertEquals(0, cliqueMax.size());
@@ -58,7 +58,7 @@ public class EncontrarCliquePorPesoGradoTest {
     public void cliqueUnVerticeTest() {
         grafo.agregarVertice(0, 2.0);
 
-        EncontrarCliqueMayorPromedioPesoGrado clique = new EncontrarCliqueMayorPromedioPesoGrado();
+        EncontrarCliqueMayorSumaPesoGrado clique = new EncontrarCliqueMayorSumaPesoGrado();
         ArrayList<Vertice> cliqueMax = clique.encontrarCliqueMayorPesoGrado(grafo);
 
         assertEquals(1, cliqueMax.size());
@@ -84,7 +84,7 @@ public class EncontrarCliquePorPesoGradoTest {
         grafo.agregarArista(3, 5);
         grafo.agregarArista(4, 5);
 
-        EncontrarCliqueMayorPromedioPesoGrado cliqueAlgoritmo = new EncontrarCliqueMayorPromedioPesoGrado();
+        EncontrarCliqueMayorSumaPesoGrado cliqueAlgoritmo = new EncontrarCliqueMayorSumaPesoGrado();
         ArrayList<Vertice> cliqueMax = cliqueAlgoritmo.encontrarCliqueMayorPesoGrado(grafo);
 
         assertTrue(existeV(2, cliqueMax));
